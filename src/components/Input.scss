@@ -1,4 +1,4 @@
-.Input {
+.CompactInput {
    input {
       &:focus ~ span, &:not(:placeholder-shown) ~ span {
          top: 0;

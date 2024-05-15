@@ -4,22 +4,22 @@ type InputType = {
    val: number | string;
    changeVal: (e: React.ChangeEvent<HTMLInputElement>) => void;
    type: string;
-   placeholder: string;
+   placeholder: string
 };
 
 function Input({ placeholder, type, val, changeVal }: InputType) {
    return (
-      <label className="Input bg-slate relative w-full sm:w-3/4 text-white text-lg">
-         <span className="transition-all p-1">
-            {placeholder}
-         </span>
+      <label className="CompactInput bg-slate relative w-full sm:w-3/4 text-black text-lg">
          <input
             value={val}
             type={type}
-            className="w-full p-2 rounded-lg bg-slate-700 border border-white focus:outline focus:outline-white"
+            className="w-full p-2 pt-4 rounded-lg"
             placeholder=" "
             onChange={changeVal}
          />
+         <span className="absolute top-3 left-2 transition-all text-neutral-500">
+            {placeholder}
+         </span>
       </label>
    );
 }
