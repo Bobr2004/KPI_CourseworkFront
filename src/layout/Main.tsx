@@ -5,7 +5,7 @@ type MainProps = {
 };
 
 function Main({ children }: MainProps) {
-   return <main>{children}</main>;
+   return <main className=" flex-grow">{children}</main>;
 }
 
 export default Main;
