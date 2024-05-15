@@ -1,0 +1,9 @@
+.Input {
+   input {
+      &:focus ~ span, &:not(:placeholder-shown) ~ span {
+         top: 0;
+         font-size: 0.75rem;
+         @apply text-black;
+      }
+   }
+}

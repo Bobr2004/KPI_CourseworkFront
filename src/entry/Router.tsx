@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { routes } from "../config/routes"
 import Layout from "../layout/Layout"
+import Login from "../pages/Login"
 
 function Router() {
   return (
@@ -9,7 +10,7 @@ function Router() {
       <Route path={routes.home} element={<Layout/>}>
          <Route path={routes.home} element={<>Diman</>}/>
          <Route path={routes.reg}/>
-         <Route path={routes.log}/>
+         <Route path={routes.log} element={<Login/>}/>
          <Route path={routes.account(23)}/>
       </Route>
     </Routes>
