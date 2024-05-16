@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const config = {
-   serverIP: "https://some-domain.com/api/v2"
+   serverIP: "http://localhost:3001"
 };
 
 const learnAPI = axios.create({

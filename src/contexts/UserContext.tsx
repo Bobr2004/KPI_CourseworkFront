@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 const UserContext = createContext<UserContextProps | null | undefined>(null);
 
 function UserContextProvider({ children }: { children: ReactNode }) {
-   const { isPending, isError, data, error } = useQuery({
+   const { isPending, isError, data} = useQuery({
       queryKey: [`currentUser`],
       queryFn: currentUser
    });

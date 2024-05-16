@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Theory } from "./Theory";
 import { Test } from "./Test";
 import { useSearchParams } from "react-router-dom";
-import { LessonProps, LessonExpandProps } from "../queries/lessonQueries";
+import { LessonProps} from "../queries/lessonQueries";
 
 // Lesson num - sequence number
 

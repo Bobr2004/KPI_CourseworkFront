@@ -1,4 +1,4 @@
-import { learnCredintialsAPI } from "../config/serverConfig";
+import { learnAPI, learnCredintialsAPI } from "../config/serverConfig";
 
 // SEND JWT cookie and GET current user data (for global context)
 type UserContextProps = {
@@ -9,7 +9,7 @@ type UserContextProps = {
 };
 
 const currentUser = async () => {
-   const { data }: { data: UserContextProps } = await learnCredintialsAPI.get(
+   const { data }: { data: UserContextProps } = await learnAPI.get(
       `/currentUser`
    );
    return data;
