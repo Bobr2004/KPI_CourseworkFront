@@ -1,10 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
-
-type TheoryProps = {
-   id: number;
-   title: string;
-};
+import { TheoryProps } from "../queries/lessonQueries";
 
 function Theory({ id, title }: TheoryProps) {
    return (
@@ -20,5 +16,3 @@ function Theory({ id, title }: TheoryProps) {
 }
 
 export { Theory };
-
-export type { TheoryProps };

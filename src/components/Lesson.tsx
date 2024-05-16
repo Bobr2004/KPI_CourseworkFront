@@ -1,13 +1,8 @@
-import { ReactNode} from "react";
-import { Theory, TheoryProps } from "./Theory";
-import { Test, TestProps } from "./Test";
+import { ReactNode } from "react";
+import { Theory } from "./Theory";
+import { Test } from "./Test";
 import { useSearchParams } from "react-router-dom";
-
-type LessonProps = {
-   id: number;
-   num: number;
-   title: string;
-};
+import { LessonProps, LessonExpandProps } from "../queries/lessonQueries";
 
 // Lesson num - sequence number
 
@@ -42,19 +37,11 @@ function Lesson({ id, num, title }: LessonProps) {
    );
 }
 
-type LessonExpandData = {
-   theoryList: TheoryProps[];
-   testList: TestProps[];
-};
-
-export type { LessonExpandData };
-
 function LessonExpand({ id }: { id: number }) {
    // const { isPending, isError, data, error } = useQuery({
    //    queryKey: [`lesson/${id}`],
-   //    queryFn:
+   //    queryFn: getLesson(id)
    // });
-
    return (
       <div className="p-4 flex justify-around gap-4" data-id={id}>
          <ExpandColumn>

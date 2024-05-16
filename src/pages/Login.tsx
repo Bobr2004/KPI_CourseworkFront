@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { loginUser } from "../queries/post";
+import { loginUser } from "../queries/userQueries";
 
 function Login() {
    const [email, setEmail] = useState("");

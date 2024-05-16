@@ -1,23 +1,4 @@
-import axios from "axios";
-import { config } from "../config/serverConfig";
-const get = axios.create({
-   baseURL: config.serverIP,
-   method: "get"
-});
-
-// SEND JWT cookie and GET current user data (for global context)
-type UserContextProps = {
-   id: number;
-   role: string;
-   firstName: string;
-   lastName: string;
-};
-
-const currentUser = async () => {
-   const { data }: { data: UserContextProps } = await get(`/currentUser`);
-   return data;
-};
-//
+import { learnAPI } from "../config/serverConfig";
 
 // GET ALL lessons basic info for home page
 type LessonProps = {
@@ -27,13 +8,13 @@ type LessonProps = {
 };
 
 const getLessons = async () => {
-   const { data }: { data: LessonProps } = await get("/getLessons");
+   const { data }: { data: LessonProps } = await learnAPI.get("/getLessons");
    return data;
 };
 //
 
 // GET ALL theory and test basic info for SPECIFIC lesson
-type LessonExpandData = {
+type LessonExpandProps = {
    theoryList: TheoryProps[];
    testList: TestProps[];
 };
@@ -50,7 +31,9 @@ type TestProps = {
 };
 
 const getLesson = (id: number) => async () => {
-   const { data }: { data: LessonExpandData } = await get(`/getLesson/${id}`);
+   const { data }: { data: LessonExpandProps } = await learnAPI.get(
+      `/getLesson/${id}`
+   );
    return data;
 };
 //
@@ -64,7 +47,9 @@ type TheoryPageProps = {
    author: string;
 };
 const getTheory = (id: number) => async () => {
-   const { data }: { data: TheoryPageProps } = await get(`/getTheory/${id}`);
+   const { data }: { data: TheoryPageProps } = await learnAPI.get(
+      `/getTheory/${id}`
+   );
    return data;
 };
 //
@@ -85,9 +70,21 @@ type QueizProps = {
 };
 
 const getTest = (id: number) => async () => {
-   const { data }: { data: TestPageProps } = await get(`/getTest/${id}`);
+   const { data }: { data: TestPageProps } = await learnAPI.get(
+      `/getTest/${id}`
+   );
    return data;
 };
 //
 
-export { getLesson, getLessons, getTheory, getTest, currentUser };
+export { getLesson, getLessons, getTheory, getTest };
+
+export type {
+   LessonProps,
+   LessonExpandProps,
+   TheoryProps,
+   TestProps,
+   TheoryPageProps,
+   TestPageProps,
+   QueizProps
+};

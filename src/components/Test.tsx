@@ -1,11 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
+import { TestProps } from "../queries/lessonQueries";
 
-type TestProps = {
-   id: number;
-   title: string;
-   questionsAmount: number;
-};
 
 function Test({ id, title, questionsAmount }: TestProps) {
    return (
@@ -23,4 +19,3 @@ function Test({ id, title, questionsAmount }: TestProps) {
 
 export { Test };
 
-export type { TestProps };

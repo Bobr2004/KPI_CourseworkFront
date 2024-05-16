@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUser } from "../queries/post";
+import { createUser } from "../queries/userQueries";
 
 function Registration() {
    const [firstName, setFirstName] = useState("");
