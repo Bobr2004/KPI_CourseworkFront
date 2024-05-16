@@ -36,7 +36,7 @@ function Login() {
    return (
       <div className="container mx-auto flex justify-center p-8 mt-12">
          <ModalForm>
-            <h1 onClick={(e) => {}} className="text-center text-4xl">
+            <h1 className="text-center text-4xl">
                Вхід
             </h1>
             <Input
