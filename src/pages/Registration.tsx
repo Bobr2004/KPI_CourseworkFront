@@ -4,16 +4,18 @@ import ModalForm from "../components/ModalForm";
 import Button from "../components/Button";
 import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createUser } from "../queries/post";
 
 function Registration() {
-   const [fisrtName, setFisrtName] = useState("");
+   const [firstName, setFirstName] = useState("");
    const [lastName, setLastName] = useState("");
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [confirmPassword, setConfirmPassword] = useState("");
 
    const changeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFisrtName(e.target.value);
+      setFirstName(e.target.value);
    };
    const changeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
       setLastName(e.target.value);
@@ -31,6 +33,20 @@ function Registration() {
       setConfirmPassword(e.target.value);
    };
 
+   const queryClient = useQueryClient();
+
+   const createMutation = useMutation({
+      mutationFn: createUser,
+      onSuccess: () => {
+         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+      }
+   });
+
+   const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+      createMutation.mutate({ firstName, lastName, email, password });
+   };
+
    return (
       <div className="container mx-auto flex justify-center p-8 mt-12">
          <ModalForm>
@@ -38,7 +54,7 @@ function Registration() {
             <Input
                type="text"
                placeholder="Імʼя"
-               val={fisrtName}
+               val={firstName}
                changeVal={changeFirstName}
             />
             <Input
@@ -65,7 +81,7 @@ function Registration() {
                val={confirmPassword}
                changeVal={changeConfirmPassword}
             />
-            <Button>Зарєструватися</Button>
+            <Button onClick={submitForm}>Зарєструватися</Button>
             <div>
                Вже маєте аккаунт?{" "}
                <NavLink to={routes.log} className="text-amber-500 underline">

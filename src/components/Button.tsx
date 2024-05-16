@@ -2,10 +2,16 @@ import { ReactNode } from "react";
 
 type ButtonProps = {
    children: ReactNode;
+   onClick: React.MouseEventHandler<HTMLButtonElement>
 };
-function Button({ children }: ButtonProps) {
+function Button({ children, onClick }: ButtonProps) {
    return (
-      <button className="py-2 px-8 text-lg rounded-lg bg-amber-500 hover:bg-amber-600 transition-all">{children}</button>
+      <button
+         onClick={onClick}
+         className="py-2 px-8 text-lg rounded-lg bg-amber-500 hover:bg-amber-600 transition-all"
+      >
+         {children}
+      </button>
    );
 }
 

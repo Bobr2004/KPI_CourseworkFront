@@ -1,9 +1,10 @@
 import axios from "axios";
+import { config } from "../config/serverConfig";
 
 // если шо то types тут так для кайфа, чтоб тебе по файлам не лазить, я их потом уберу
 
 const get = axios.create({
-   baseURL: "https://some-domain.com/api/v2",
+   baseURL: config.serverIP,
    method: "get"
 });
 
@@ -12,31 +13,25 @@ const getLessons = async () => {
    return data;
 };
 
-// Type for getLessons data
-type LessonProps = {
-   id: number;
-   num: number;
-   title: string;
-};
 
 const getLesson = (id: number) => async () => {
    const { data } = await get(`/getLesson/${id}`);
    return data;
 };
 
-// type for getLesson data
-type LessonExpandData = {
-   theoryList: TheoryProps[];
-   testList: TestProps[];
+const getTheory = (id: number) => async () => {
+   const { data } = await get(`/getTheory/${id}`);
+   return data;
 };
 
-type TheoryProps = {
-   id: number;
-   title: string;
+const getTest = (id: number) => async () => {
+   const { data } = await get(`/getTest/${id}`);
+   return data;
 };
 
-type TestProps = {
-   id: number;
-   title: string;
-   questionsAmount: number;
+const currentUser = async () => {
+   const { data } = await get(`/currentUser`);
+   return data;
 };
+
+export { getLesson, getLessons, getTheory, getTest, currentUser };
