@@ -8,7 +8,7 @@ function Test({ id, title, questionsAmount, points }: TestProps) {
       <article>
          <NavLink
             to={routes.toTest(id)}
-            className="flex flex-col items-stretch bg-stone-300 gap-1 p-2 hover-stone-cs hover-bg-cs"
+            className="flex flex-col items-stretch bg-stone-300 gap-1 p-2 hover-stone-cs"
          >
             <h3 className="text-center">{title}</h3>
             <div className="divider-cs"></div>

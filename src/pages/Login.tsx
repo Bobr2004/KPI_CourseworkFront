@@ -47,7 +47,7 @@ function Login() {
    return (
       <div className="container mx-auto flex justify-center p-8 mt-12">
          <ModalForm>
-            <h1 className="text-center text-4xl">Вхід</h1>
+            <h1 className="text-center text-3xl">Вхід</h1>
             <Input
                type="email"
                placeholder="Електронна пошта"
@@ -61,12 +61,15 @@ function Login() {
                changeVal={changePassword}
             />
             {validaionErorr && (
-               <p className="text-center bg-rose-600 px-2">{validaionErorr}</p>
+               <p className="text-center text-rose-600 px-2">{validaionErorr}</p>
             )}
             <Button onClick={submitForm}>Увійти</Button>
             <div>
                Ще немає аккаунта?{" "}
-               <NavLink to={routes.reg} className="text-amber-500 underline">
+               <NavLink
+                  to={routes.reg}
+                  className="text-amber-500 underline hover:text-amber-600"
+               >
                   Реєстрація
                </NavLink>
             </div>

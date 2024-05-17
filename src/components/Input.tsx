@@ -9,7 +9,7 @@ type InputType = {
 
 function Input({ placeholder, type, val, changeVal }: InputType) {
    return (
-      <label className="Input bg-slate relative w-full sm:w-3/4 text-stone-800 text-lg">
+      <label className="Input bg-slate relative w-full sm:w-3/4 text-stone-800">
          <span className="transition-all p-1">
             {placeholder}
          </span>

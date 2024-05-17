@@ -44,6 +44,8 @@ const createUser = async (userRegData: createUserType) => {
 
 type AccountProps = {
    id: number;
+   role: string;
+   email: string;
    firstName: string;
    lastName: string;
    score: number;

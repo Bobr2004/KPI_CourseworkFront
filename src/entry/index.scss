@@ -24,9 +24,6 @@ body,
    @apply rounded-lg border border-stone-500 text-stone-500 hover:text-stone-600 hover:border-stone-600;
 }
 
-.hover-bg-cs:hover{
-   background-color: #cccccc;
-}
 
 .divider-cs {
    @apply bg-stone-400 h-px;
@@ -45,9 +42,9 @@ body,
 }
 
 .hover-failed-bg-cs{
-   @apply bg-red-300  hover:bg-red-400;
+   @apply bg-red-400 ;
 }
 
 .hover-success-bg-cs{
-   @apply bg-green-300  hover:bg-green-400;
+   @apply bg-green-400;
 }

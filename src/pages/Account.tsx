@@ -1,20 +1,50 @@
-import { AccountTest } from "../components/AccountTest";
+import { useParams } from "react-router-dom";
+import AccountData from "../accountComponents/AccountData";
+import { AccountTest } from "../accountComponents/AccountTest";
+import { AccountProps, getAccount } from "../queries/userQueries";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "../components/Spinner";
 
 function Account() {
+   let { id } = useParams();
+   console.log(id);
+   const { isPending, isError, data, error } = useQuery({
+      queryKey: [`account/${id}`],
+      queryFn: getAccount(Number(id))
+   });
+
+   let htm: JSX.Element = <Spinner height="4.5rem" />;
+
+   if (isPending) htm = <Spinner height="4.5rem" />;
+   else if (isError) htm = <div>Error: {error.message}</div>;
+   else
+      htm = (
+         <>
+            <AccountData
+               id={data.id}
+               role={data.role}
+               email={data.email}
+               firstName={data.firstName}
+               lastName={data.lastName}
+               score={data.score}
+            />
+            <h4 className="text-center text-2xl">Архів тестів</h4>
+            <div className="flex flex-col gap-2 flex-grow">
+               {data.testList.map((acctest) => (
+                  <AccountTest
+                     id={acctest.id}
+                     title={acctest.title}
+                     receivedPoints={acctest.receivedPoints}
+                     points={acctest.points}
+                  />
+               ))}
+            </div>
+         </>
+      );
+
    return (
       <div className="container mx-auto p-4 mt-8">
-         <div className="max-w-[80ch] mx-auto flex  gap-4">
-            <div className="flex flex-col gap-4">
-               <div className="h-64 w-64 bg-stone-300 rounded-full"></div>
-               <h2>Богдан Шовкопляс</h2>
-               <p>82 бали</p>
-               <p>Учень</p>
-            </div>
-            <div className="flex flex-col gap-2 max-w-[40ch] flex-grow">
-               <AccountTest id={1} title="Бобр" receivedPoints={2} points={5} />
-               <AccountTest id={1} title="Бобр" receivedPoints={4} points={5} />
-            </div>
-         </div>
+         <div className="max-w-[80ch] mx-auto flex flex-col  gap-4">{htm}</div>
       </div>
    );
 }

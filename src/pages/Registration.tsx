@@ -71,7 +71,7 @@ function Registration() {
    return (
       <div className="container mx-auto flex justify-center p-8 mt-12">
          <ModalForm>
-            <h1 className="text-center text-4xl">Реєстрація</h1>
+            <h1 className="text-center text-3xl">Реєстрація</h1>
             <Input
                type="text"
                placeholder="Імʼя"
@@ -103,12 +103,12 @@ function Registration() {
                changeVal={changeConfirmPassword}
             />
             {validaionErorr && (
-               <p className="text-center bg-rose-600 px-2">{validaionErorr}</p>
+               <p className="text-center text-rose-600 px-2">{validaionErorr}</p>
             )}
             <Button onClick={submitForm}>Зарєструватися</Button>
             <div>
                Вже маєте аккаунт?{" "}
-               <NavLink to={routes.log} className="text-amber-500 underline">
+               <NavLink to={routes.log} className="text-amber-500 underline hover:text-amber-600">
                   Увійти
                </NavLink>
             </div>

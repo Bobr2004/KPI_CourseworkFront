@@ -3,7 +3,7 @@ import { routes } from "../config/routes";
 import { AccountTestProps } from "../queries/userQueries";
 
 function AccountTest({ id, title, points, receivedPoints }: AccountTestProps) {
-   const isEnough = receivedPoints > Math.floor(points * 0.6);
+   const isEnough = receivedPoints >= Math.floor(points * 0.6);
 
    let testStatus: "failed" | "success" = isEnough
       ? "success"
@@ -13,7 +13,7 @@ function AccountTest({ id, title, points, receivedPoints }: AccountTestProps) {
       <article>
          <NavLink
             to={routes.toTest(id)}
-            className={`flex gap-4 justify-between bg-stone-300 p-2 hover-${testStatus}-cs hover-${testStatus}-bg-cs`}
+            className={`flex gap-4 justify-between bg-stone-300 p-2 hover-stone-cs hover-${testStatus}-bg-cs`}
          >
             <h3>{title}</h3>
             <span>
