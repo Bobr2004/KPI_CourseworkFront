@@ -11,6 +11,9 @@ function Login() {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
 
+   // Error messge
+   const [validaionErorr, setValidationError] = useState("");
+
    const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
       setEmail(e.target.value);
    };
@@ -30,15 +33,21 @@ function Login() {
 
    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
+      if (!email || !password) {
+         setValidationError("Всі поля мають бути заповнені!");
+         return;
+      }
+      // валідація емейлу
+      // if (!email)
+
+      setValidationError("");
       loginMutation.mutate({ email, password });
    };
 
    return (
       <div className="container mx-auto flex justify-center p-8 mt-12">
          <ModalForm>
-            <h1 className="text-center text-4xl">
-               Вхід
-            </h1>
+            <h1 className="text-center text-4xl">Вхід</h1>
             <Input
                type="email"
                placeholder="Електронна пошта"
@@ -51,6 +60,9 @@ function Login() {
                val={password}
                changeVal={changePassword}
             />
+            {validaionErorr && (
+               <p className="text-center bg-rose-600 px-2">{validaionErorr}</p>
+            )}
             <Button onClick={submitForm}>Увійти</Button>
             <div>
                Ще немає аккаунта?{" "}

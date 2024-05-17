@@ -28,6 +28,7 @@ type TestProps = {
    id: number;
    title: string;
    questionsAmount: number;
+   points: number
 };
 
 const getLesson = (id: number) => async () => {
@@ -58,15 +59,20 @@ const getTheory = (id: number) => async () => {
 type TestPageProps = {
    id: number;
    title: string;
-   quizes: QueizProps[];
+   quizes: QuizProps[];
+   points: number;
+   author: string;
 };
 
-type QueizProps = {
+// Test points is equal to all Quiz points
+
+type QuizProps = {
    id: number;
    question: string;
-   option1: string;
-   option2: string;
-   option3: string;
+   optionA: string;
+   optionB: string;
+   optionC: string;
+   points: number
 };
 
 const getTest = (id: number) => async () => {
@@ -86,5 +92,5 @@ export type {
    TestProps,
    TheoryPageProps,
    TestPageProps,
-   QueizProps
+   QuizProps
 };

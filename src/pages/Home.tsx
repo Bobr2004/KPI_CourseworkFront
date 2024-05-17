@@ -17,7 +17,7 @@ function Home() {
       htm = (
          <>
             {data.map((lsn) => (
-               <Lesson id={lsn.id} num={lsn.num} title={lsn.title} />
+               <Lesson id={lsn.id} num={lsn.num} title={lsn.title} key={lsn.id}/>
             ))}
          </>
       );

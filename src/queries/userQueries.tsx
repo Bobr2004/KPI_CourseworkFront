@@ -40,8 +40,30 @@ const createUser = async (userRegData: createUserType) => {
    const response = await learnCredintialsAPI.post("/createUser", userRegData);
    return response;
 };
-// 
+//
 
-export { currentUser, loginUser, createUser };
+type AccountProps = {
+   id: number;
+   firstName: string;
+   lastName: string;
+   score: number;
+   testList: AccountTestProps[];
+};
 
-export type { UserContextProps, loginUserType, createUserType };
+type AccountTestProps = {
+   id: number;
+   title: string;
+   points: number;
+   receivedPoints: number;
+};
+
+const getAccount = (id: number) => async () => {
+   const { data }: { data: AccountProps } = await learnAPI.get(
+      `/account/${id}`
+   );
+   return data;
+};
+
+export { currentUser, loginUser, createUser, getAccount };
+
+export type { UserContextProps, loginUserType, createUserType, AccountProps, AccountTestProps };

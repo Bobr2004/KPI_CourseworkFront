@@ -24,14 +24,14 @@ function Lesson({ id, num, title }: LessonProps) {
 
    return (
       <div className="border border-white bg-slate-700 rounded-lg w-full">
-         <div className="rounded-lg bg-slate-800 border border-white flex justify-between p-4">
-            <div>{num}</div>
-            <div>{title}</div>
+         <div className="rounded-lg bg-slate-800 border border-white p-4 relative">
+            <div className="absolute top-4 left-4">{num}</div>
+            <h2 className="text-center">{title}</h2>
             <button
                onClick={toggleExpand}
-               className="border border-white rounded-lg px-2"
+               className="absolute top-4 right-4 border border-white rounded-lg px-2"
             >
-               більше
+               ∆
             </button>
          </div>
          {isExpanded && <LessonExpand id={id} />}
@@ -55,15 +55,17 @@ function LessonExpand({ id }: { id: number }) {
          <>
             <ExpandColumn>
                {theoryList.map(({ id, title }) => (
-                  <Theory id={id} title={title} />
+                  <Theory id={id} title={title} key={id} />
                ))}
             </ExpandColumn>
             <ExpandColumn>
-               {testList.map(({ id, title, questionsAmount }) => (
+               {testList.map(({ id, title, questionsAmount, points }) => (
                   <Test
                      id={id}
                      title={title}
                      questionsAmount={questionsAmount}
+                     points={points}
+                     key={id}
                   />
                ))}
             </ExpandColumn>

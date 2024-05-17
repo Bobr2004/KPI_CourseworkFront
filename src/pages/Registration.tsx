@@ -14,6 +14,9 @@ function Registration() {
    const [password, setPassword] = useState("");
    const [confirmPassword, setConfirmPassword] = useState("");
 
+   // Error messge
+   const [validaionErorr, setValidationError] = useState("");
+
    const changeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
       setFirstName(e.target.value);
    };
@@ -44,6 +47,24 @@ function Registration() {
 
    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
+      if (!firstName || !lastName || !email || !password || !confirmPassword) {
+         setValidationError("Всі поля мають бути заповнені!");
+         return;
+      }
+      // валідація емейлу
+      // if (!email)
+
+      if (password.length < 8) {
+         setValidationError("Пароль має містити не менше 8 символів!");
+         return;
+      }
+      if (password !== confirmPassword) {
+         setValidationError("Пароль та підтвердження не збігаються!");
+         return;
+      }
+
+      setValidationError("");
+
       createMutation.mutate({ firstName, lastName, email, password });
    };
 
@@ -81,6 +102,9 @@ function Registration() {
                val={confirmPassword}
                changeVal={changeConfirmPassword}
             />
+            {validaionErorr && (
+               <p className="text-center bg-rose-600 px-2">{validaionErorr}</p>
+            )}
             <Button onClick={submitForm}>Зарєструватися</Button>
             <div>
                Вже маєте аккаунт?{" "}
