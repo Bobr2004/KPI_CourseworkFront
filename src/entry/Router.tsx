@@ -6,6 +6,7 @@ import Registration from "../pages/Registration";
 import Home from "../pages/Home";
 import TheoryPage from "../pages/TheoryPage";
 import TestPage from "../pages/TestPage";
+import Account from "../pages/Account";
 
 function Router() {
    return (
@@ -17,7 +18,7 @@ function Router() {
                <Route path={routes.log} element={<Login />} />
                <Route path={routes.theory} element={<TheoryPage/>} />
                <Route path={routes.test} element={<TestPage />} />
-               <Route path={routes.account} />
+               <Route path={routes.account} element={<Account/>}/>
             </Route>
          </Routes>
       </BrowserRouter>
