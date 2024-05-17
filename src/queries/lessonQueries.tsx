@@ -8,7 +8,7 @@ type LessonProps = {
 };
 
 const getLessons = async () => {
-   const { data }: { data: LessonProps } = await learnAPI.get("/getLessons");
+   const { data }: { data: LessonProps[] } = await learnAPI.get("/getLessons");
    return data;
 };
 //
