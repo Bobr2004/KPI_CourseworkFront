@@ -1,10 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
-import { Theory } from "./Theory";
-import { Test } from "./Test";
 import { useSearchParams } from "react-router-dom";
 import { LessonProps, getLesson } from "../queries/lessonQueries";
-import { useQuery } from "@tanstack/react-query";
 import Spinner from "./Spinner";
+import { Test } from "./Test";
+import { Theory } from "./Theory";
 
 // Lesson num - sequence number
 
@@ -23,15 +23,15 @@ function Lesson({ id, num, title }: LessonProps) {
    };
 
    return (
-      <div className="border border-white bg-slate-700 rounded-lg w-full">
-         <div className="rounded-lg bg-slate-800 border border-white p-4 relative">
+      <div className="border border-stone-600 bg-stone-200 rounded-lg w-full overflow-hidden">
+         <div className=" bg-stone-300 border-b border-stone-600 p-4 relative">
             <div className="absolute top-4 left-4">{num}</div>
             <h2 className="text-center">{title}</h2>
             <button
                onClick={toggleExpand}
-               className="absolute top-4 right-4 border border-white rounded-lg px-2"
+               className="absolute top-4 right-4 px-2 hover-button-cs"
             >
-               ∆
+               Ø
             </button>
          </div>
          {isExpanded && <LessonExpand id={id} />}

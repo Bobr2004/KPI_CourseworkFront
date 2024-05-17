@@ -7,7 +7,7 @@ function Theory({ id, title }: TheoryProps) {
       <article>
          <NavLink
             to={routes.toTheory(id)}
-            className="block bg-slate-800 rounded-lg p-2 hover:bg-slate-900"
+            className="block bg-stone-300 rounded-lg p-2 hover-stone-cs "
          >
             <h3>{title}</h3>
          </NavLink>

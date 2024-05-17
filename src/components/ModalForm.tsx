@@ -10,7 +10,7 @@ function ModalForm({ children }: ModalFormProps) {
          onSubmit={(e) => {
             e.preventDefault();
          }}
-         className="bg-slate-800 w-full sm:w-2/3 lg:w-2/5  p-4 rounded-lg flex flex-col gap-4 items-center border border-white"
+         className="bg-stone-300 w-full sm:w-2/3 lg:w-2/5  p-4 rounded-lg flex flex-col gap-4 items-center border border-stone-600"
       >
          {children}
       </form>

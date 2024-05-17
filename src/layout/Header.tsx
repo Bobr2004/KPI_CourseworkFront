@@ -18,7 +18,7 @@ function Header() {
    );
 
    return (
-      <header className="p-4 bg-slate-800 border-b border-white">
+      <header className="p-4 bg-stone-300 border-b border-stone-600">
          <div className="container mx-auto flex justify-between">
             <NavLink to={routes.home}>Logo</NavLink>
             {htm}
