@@ -23,8 +23,8 @@ function Home() {
       );
 
    return (
-      <div className="container mx-auto p-4">
-         <h1 className="text-center text-4xl mt-4">Уроки</h1>
+      <div className="container mx-auto p-4 md:mt-8">
+         <h1 className="text-center text-4xl">Уроки</h1>
          <div className="max-w-[80ch] mx-auto mt-8 flex flex-col gap-4 items-center">
             {htm}
          </div>

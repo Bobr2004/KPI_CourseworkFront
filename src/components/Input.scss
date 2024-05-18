@@ -1,7 +1,7 @@
 .CompactInput {
    input {
       &:focus ~ span, &:not(:placeholder-shown) ~ span {
-         top: 0;
+         top: -0.125rem;
          font-size: 0.75rem;
          @apply text-black;
       }

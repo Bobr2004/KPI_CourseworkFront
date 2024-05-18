@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useUser } from "../contexts/UserContext";
 import Spinner from "../components/Spinner";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Header() {
    const currentUser = useUser();
@@ -13,7 +15,7 @@ function Header() {
       htm = <NavLink to={routes.log}>Cabin</NavLink>;
    else htm = (
       <NavLink to={routes.toAccount(currentUser.id)}>
-         {currentUser.firstName}
+         {currentUser.firstName} <FontAwesomeIcon icon={faUser}/>
       </NavLink>
    );
 

@@ -43,7 +43,7 @@ function Account() {
       );
 
    return (
-      <div className="container mx-auto p-4 mt-8">
+      <div className="container mx-auto p-4 md:mt-8">
          <div className="max-w-[80ch] mx-auto flex flex-col  gap-4">{htm}</div>
       </div>
    );

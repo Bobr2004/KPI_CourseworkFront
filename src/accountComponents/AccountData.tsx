@@ -44,9 +44,9 @@ function AccountData({
    const isCurrentUser = user && user.id === id;
 
    return (
-      <div className="flex gap-4">
-         <FontAwesomeIcon icon={roleIcon} size="10x" />
-         <div className="flex flex-col gap-2 p-2 w-1/2">
+      <div className="flex gap-4 flex-col md:flex-row">
+         <FontAwesomeIcon icon={roleIcon}className="h-[164px]"/>
+         <div className="flex flex-col gap-2 p-2 w-full md:w-1/2">
             <div className="flex gap-2">
                <h2 className="text-xl">
                   {lastName} {firstName}

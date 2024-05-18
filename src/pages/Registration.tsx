@@ -69,7 +69,7 @@ function Registration() {
    };
 
    return (
-      <div className="container mx-auto flex justify-center p-8 mt-12">
+      <div className="container mx-auto flex justify-center p-4 md:mt-8">
          <ModalForm>
             <h1 className="text-center text-3xl">Реєстрація</h1>
             <Input
