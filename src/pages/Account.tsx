@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import AccountData from "../accountComponents/AccountData";
-import { AccountTest } from "../accountComponents/AccountTest";
-import { AccountProps, getAccount } from "../queries/userQueries";
+import AccountData from "../components/accountComponents/AccountData";
+import { AccountTest } from "../components/accountComponents/AccountTest";
+import { getAccount } from "../queries/userQueries";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../components/Spinner";
 
@@ -13,9 +13,14 @@ function Account() {
       queryFn: getAccount(Number(id))
    });
 
-   let htm: JSX.Element = <Spinner height="4.5rem" />;
+   let htm: JSX.Element;
 
-   if (isPending) htm = <Spinner height="4.5rem" />;
+   if (isPending)
+      htm = (
+         <div className="flex justify-center">
+            <Spinner height="4.5rem" />
+         </div>
+      );
    else if (isError) htm = <div>Error: {error.message}</div>;
    else
       htm = (

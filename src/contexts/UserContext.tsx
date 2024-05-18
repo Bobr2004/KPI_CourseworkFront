@@ -6,7 +6,7 @@ const UserContext = createContext<UserContextProps | null | undefined>(null);
 
 function UserContextProvider({ children }: { children: ReactNode }) {
    const { isPending, isError, data} = useQuery({
-      queryKey: [`currentUser`],
+      queryKey: [`current-user`],
       queryFn: currentUser
    });
 

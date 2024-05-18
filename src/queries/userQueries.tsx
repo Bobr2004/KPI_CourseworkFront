@@ -16,32 +16,8 @@ const currentUser = async () => {
 };
 //
 
-// SEND login user credentials and receive JWT cookie
-type loginUserType = {
-   email: string;
-   password: string;
-};
 
-const loginUser = async (userLogData: loginUserType) => {
-   const response = await learnCredintialsAPI.post("/login-user", userLogData);
-   return response;
-};
-//
-
-// SEND registration user credentials and receive JWT cookie
-type createUserType = {
-   firstName: string;
-   lastName: string;
-   email: string;
-   password: string;
-};
-
-const createUser = async (userRegData: createUserType) => {
-   const response = await learnCredintialsAPI.post("/create-user", userRegData);
-   return response;
-};
-//
-
+// GET all data about SPECIFIC User
 type AccountProps = {
    id: number;
    role: string;
@@ -58,6 +34,7 @@ type AccountTestProps = {
    points: number;
    receivedPoints: number;
 };
+// 
 
 const getAccount = (id: number) => async () => {
    const { data }: { data: AccountProps } = await learnAPI.get(
@@ -66,6 +43,6 @@ const getAccount = (id: number) => async () => {
    return data;
 };
 
-export { currentUser, loginUser, createUser, getAccount };
+export { currentUser, getAccount };
 
-export type { UserContextProps, loginUserType, createUserType, AccountProps, AccountTestProps };
+export type { UserContextProps, AccountProps, AccountTestProps };

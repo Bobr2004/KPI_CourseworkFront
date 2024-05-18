@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { loginUser } from "../queries/userQueries";
+import { loginUser } from "../mutations/userMutations";
 
 function Login() {
    const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ function Login() {
    const loginMutation = useMutation({
       mutationFn: loginUser,
       onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+         queryClient.invalidateQueries({ queryKey: ["current-user"] });
       }
    });
 

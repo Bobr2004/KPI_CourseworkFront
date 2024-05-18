@@ -1,4 +1,4 @@
-import { ButtonProps } from "../components/Button";
+import { ButtonProps } from "../Button";
 
 function AccountButton({ children, onClick }: ButtonProps) {
    return (

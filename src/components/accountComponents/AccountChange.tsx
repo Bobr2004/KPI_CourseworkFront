@@ -1,8 +1,10 @@
 import { useState } from "react";
-import CompactInput from "../components/CompactInput";
+import CompactInput from "../CompactInput";
 import AccountButton from "./AccountButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { patchUser } from "../../mutations/userMutations";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type AccountChnageType = {
    id: number;
@@ -73,6 +75,10 @@ function ChnageGui({
 }
 
 function ChangeEmailForm({ id }: { id: number }) {
+   const [email, setEmail] = useState("");
+   const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value);
+   };
    return (
       <form
          className="mt-6 flex flex-col gap-2 h-full justify-between"
@@ -82,7 +88,12 @@ function ChangeEmailForm({ id }: { id: number }) {
       >
          <div className="flex flex-col gap-2">
             <h4>Зміна електронної адреси</h4>
-            <CompactInput placeholder="Email" type="email" />
+            <CompactInput
+               placeholder="Email"
+               type="email"
+               val={email}
+               changeVal={changeEmail}
+            />
          </div>
          <AccountButton onClick={() => {}}>Зберегти email</AccountButton>
       </form>
@@ -90,6 +101,52 @@ function ChangeEmailForm({ id }: { id: number }) {
 }
 
 function ChangePasswordForm({ id }: { id: number }) {
+   const [password, setPassword] = useState("");
+   const [confirmPassword, setConfirmPassword] = useState("");
+
+   // Error messge
+   const [validaionErorr, setValidationError] = useState("");
+
+   const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value);
+   };
+
+   const changeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setConfirmPassword(e.target.value);
+   };
+
+   const queryClient = useQueryClient();
+
+   const patchUserMutation = useMutation({
+      mutationFn: patchUser,
+      onSuccess: () => {
+         queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      }
+   });
+
+   const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+      if (!password || !confirmPassword) {
+         setValidationError("Всі поля мають бути заповнені!");
+         return;
+      }
+      // валідація емейлу
+      // if (!email)
+
+      if (password.length < 8) {
+         setValidationError("Пароль має містити не менше 8 символів!");
+         return;
+      }
+      if (password !== confirmPassword) {
+         setValidationError("Пароль та підтвердження не збігаються!");
+         return;
+      }
+
+      setValidationError("");
+
+      patchUserMutation.mutate({ id, password });
+   };
+
    return (
       <form
          className="mt-7 flex flex-col gap-2 h-full justify-between"
@@ -97,9 +154,19 @@ function ChangePasswordForm({ id }: { id: number }) {
             e.preventDefault();
          }}
       >
-         <CompactInput placeholder="пароль" type="password" />
-         <CompactInput placeholder="Підтвердження паролю" type="password" />
-         <AccountButton onClick={() => {}}>Зберегти пароль</AccountButton>
+         <CompactInput
+            placeholder="Пароль"
+            type="password"
+            val={password}
+            changeVal={changePassword}
+         />
+         <CompactInput
+            placeholder="Підтвердіть пароль"
+            type="password"
+            val={confirmPassword}
+            changeVal={changeConfirmPassword}
+         />
+         <AccountButton onClick={submitForm}>Зберегти пароль</AccountButton>
       </form>
    );
 }

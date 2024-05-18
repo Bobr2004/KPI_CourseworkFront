@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUser } from "../queries/userQueries";
+import { createUser } from "../mutations/userMutations";
 
 function Registration() {
    const [firstName, setFirstName] = useState("");
@@ -38,10 +38,10 @@ function Registration() {
 
    const queryClient = useQueryClient();
 
-   const createMutation = useMutation({
+   const createUserMutation = useMutation({
       mutationFn: createUser,
       onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+         queryClient.invalidateQueries({ queryKey: ["current-user"] });
       }
    });
 
@@ -65,7 +65,7 @@ function Registration() {
 
       setValidationError("");
 
-      createMutation.mutate({ firstName, lastName, email, password });
+      createUserMutation.mutate({ firstName, lastName, email, password });
    };
 
    return (

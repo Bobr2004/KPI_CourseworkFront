@@ -1,13 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { routes } from "../config/routes";
-import { AccountTestProps } from "../queries/userQueries";
+import { routes } from "../../config/routes";
+import { AccountTestProps } from "../../queries/userQueries";
 
 function AccountTest({ id, title, points, receivedPoints }: AccountTestProps) {
    const isEnough = receivedPoints >= Math.floor(points * 0.6);
 
-   let testStatus: "failed" | "success" = isEnough
-      ? "success"
-      : "failed";
+   let testStatus: "failed" | "success" = isEnough ? "success" : "failed";
 
    return (
       <article>
