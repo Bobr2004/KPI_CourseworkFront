@@ -8,7 +8,7 @@ type LessonProps = {
 };
 
 const getLessons = async () => {
-   const { data }: { data: LessonProps[] } = await learnAPI.get("/getLessons");
+   const { data }: { data: LessonProps[] } = await learnAPI.get("/lessons");
    return data;
 };
 //
@@ -33,7 +33,7 @@ type TestProps = {
 
 const getLesson = (id: number) => async () => {
    const { data }: { data: LessonExpandProps } = await learnAPI.get(
-      `/getLesson/${id}`
+      `/lesson/${id}`
    );
    return data;
 };
@@ -49,7 +49,7 @@ type TheoryPageProps = {
 };
 const getTheory = (id: number) => async () => {
    const { data }: { data: TheoryPageProps } = await learnAPI.get(
-      `/getTheory/${id}`
+      `/theory/${id}`
    );
    return data;
 };
@@ -77,7 +77,7 @@ type QuizProps = {
 
 const getTest = (id: number) => async () => {
    const { data }: { data: TestPageProps } = await learnAPI.get(
-      `/getTest/${id}`
+      `/test/${id}`
    );
    return data;
 };

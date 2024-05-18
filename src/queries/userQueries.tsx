@@ -10,7 +10,7 @@ type UserContextProps = {
 
 const currentUser = async () => {
    const { data }: { data: UserContextProps } = await learnAPI.get(
-      `/currentUser`
+      `/current-user`
    );
    return data;
 };
@@ -23,7 +23,7 @@ type loginUserType = {
 };
 
 const loginUser = async (userLogData: loginUserType) => {
-   const response = await learnCredintialsAPI.post("/loginUser", userLogData);
+   const response = await learnCredintialsAPI.post("/login-user", userLogData);
    return response;
 };
 //
@@ -37,7 +37,7 @@ type createUserType = {
 };
 
 const createUser = async (userRegData: createUserType) => {
-   const response = await learnCredintialsAPI.post("/createUser", userRegData);
+   const response = await learnCredintialsAPI.post("/create-user", userRegData);
    return response;
 };
 //
