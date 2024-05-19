@@ -6,6 +6,8 @@ import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUser } from "../mutations/userMutations";
+import { validateEmail, validateUserFormAndSetError } from "../helpers/helpers";
+import { ValidationError } from "../components/ValidationError";
 
 function Registration() {
    const [firstName, setFirstName] = useState("");
@@ -47,25 +49,14 @@ function Registration() {
 
    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
-      if (!firstName || !lastName || !email || !password || !confirmPassword) {
-         setValidationError("Всі поля мають бути заповнені!");
-         return;
+      if (
+         validateUserFormAndSetError(
+            { firstName, lastName, email, password, confirmPassword },
+            setValidationError
+         )
+      ) {
+         createUserMutation.mutate({ firstName, lastName, email, password });
       }
-      // валідація емейлу
-      // if (!email)
-
-      if (password.length < 8) {
-         setValidationError("Пароль має містити не менше 8 символів!");
-         return;
-      }
-      if (password !== confirmPassword) {
-         setValidationError("Пароль та підтвердження не збігаються!");
-         return;
-      }
-
-      setValidationError("");
-
-      createUserMutation.mutate({ firstName, lastName, email, password });
    };
 
    return (
@@ -103,12 +94,15 @@ function Registration() {
                changeVal={changeConfirmPassword}
             />
             {validaionErorr && (
-               <p className="text-center text-rose-600 px-2">{validaionErorr}</p>
+               <ValidationError text={validaionErorr}/>
             )}
             <Button onClick={submitForm}>Зарєструватися</Button>
             <div>
                Вже маєте аккаунт?{" "}
-               <NavLink to={routes.log} className="text-amber-500 underline hover:text-amber-600">
+               <NavLink
+                  to={routes.log}
+                  className="text-amber-500 underline hover:text-amber-600"
+               >
                   Увійти
                </NavLink>
             </div>

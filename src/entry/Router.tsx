@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import TheoryPage from "../pages/TheoryPage";
 import TestPage from "../pages/TestPage";
 import Account from "../pages/Account";
+import Rating from "../pages/Rating";
 
 function Router() {
    return (
@@ -14,11 +15,16 @@ function Router() {
          <Routes>
             <Route path={routes.home} element={<Layout />}>
                <Route path={routes.home} element={<Home />} />
+
+               <Route path={routes.rating} element={<Rating />} />
+
                <Route path={routes.reg} element={<Registration />} />
                <Route path={routes.log} element={<Login />} />
-               <Route path={routes.theory} element={<TheoryPage/>} />
+
+               <Route path={routes.account} element={<Account />} />
+
+               <Route path={routes.theory} element={<TheoryPage />} />
                <Route path={routes.test} element={<TestPage />} />
-               <Route path={routes.account} element={<Account/>}/>
             </Route>
          </Routes>
       </BrowserRouter>

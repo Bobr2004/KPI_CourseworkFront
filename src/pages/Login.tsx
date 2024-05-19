@@ -6,6 +6,8 @@ import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUser } from "../mutations/userMutations";
+import { validateEmail, validateUserFormAndSetError } from "../helpers/helpers";
+import { ValidationError } from "../components/ValidationError";
 
 function Login() {
    const [email, setEmail] = useState("");
@@ -28,20 +30,22 @@ function Login() {
       mutationFn: loginUser,
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      },
+      onError: ()=>{
+         setValidationError("Email чи пароль не вірні");
       }
    });
 
    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
-      if (!email || !password) {
-         setValidationError("Всі поля мають бути заповнені!");
-         return;
+      if (
+         validateUserFormAndSetError(
+            {email, password},
+            setValidationError
+         )
+      ) {
+         loginMutation.mutate({email, password });
       }
-      // валідація емейлу
-      // if (!email)
-
-      setValidationError("");
-      loginMutation.mutate({ email, password });
    };
 
    return (
@@ -61,7 +65,7 @@ function Login() {
                changeVal={changePassword}
             />
             {validaionErorr && (
-               <p className="text-center text-rose-600 px-2">{validaionErorr}</p>
+               <ValidationError text={validaionErorr}/>
             )}
             <Button onClick={submitForm}>Увійти</Button>
             <div>

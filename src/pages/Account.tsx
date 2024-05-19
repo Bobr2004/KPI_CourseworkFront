@@ -35,12 +35,13 @@ function Account() {
             />
             <h4 className="text-center text-2xl">Архів тестів</h4>
             <div className="flex flex-col gap-2 flex-grow">
-               {data.testList.map((acctest) => (
+               {data.testList.map(({id, title, receivedPoints, points}) => (
                   <AccountTest
-                     id={acctest.id}
-                     title={acctest.title}
-                     receivedPoints={acctest.receivedPoints}
-                     points={acctest.points}
+                     id={id}
+                     title={title}
+                     receivedPoints={receivedPoints}
+                     points={points}
+                     key={points}
                   />
                ))}
             </div>

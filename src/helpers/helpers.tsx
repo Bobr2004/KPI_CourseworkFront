@@ -14,4 +14,57 @@ const coreDigit = (num: number): number => {
    return num % 10;
 };
 
-export {properQuestionsWord, properPointsWord, coreDigit}
+const validateEmail = (email: string): boolean => {
+   return !!email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+   );
+};
+
+type validateUserFormFieldsType = {
+   lastName?: string;
+   firstName?: string;
+
+   email?: string;
+
+   password?: string;
+   confirmPassword?: string;
+};
+
+const validateUserFormAndSetError = (
+   userFields: validateUserFormFieldsType,
+   setError: React.Dispatch<React.SetStateAction<string>>
+): boolean => {
+   for(let field of Object.entries(userFields)){
+      if (field[1] === "") {
+         setError("Всі поля мають бути заповнені!");
+         return false;
+      }
+   };
+
+   const { email, password, confirmPassword } = userFields;
+
+   if (email && !validateEmail(email)) {
+      setError("Неправильний формат email");
+      return false;
+   }
+
+   if (password && password.length < 8) {
+      setError("Пароль має містити не менше 8 символів!");
+      return false;
+   }
+   if (password && password !== confirmPassword) {
+      setError("Пароль та підтвердження не збігаються!");
+      return false;
+   }
+
+   setError("");
+   return true;
+};
+
+export {
+   properQuestionsWord,
+   properPointsWord,
+   coreDigit,
+   validateEmail,
+   validateUserFormAndSetError
+};
