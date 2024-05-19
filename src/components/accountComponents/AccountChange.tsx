@@ -1,11 +1,7 @@
 import { useState } from "react";
-import CompactInput from "../CompactInput";
 import AccountButton from "./AccountButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { patchUser } from "../../mutations/userMutations";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { validateUserFormAndSetError } from "../../helpers/helpers";
 import { ChangePasswordForm } from "./ChangePassword";
 import { ChangeEmailForm } from "./ChnageEmail";
 import { SpecialDisplay } from "./SpecialDisplay";

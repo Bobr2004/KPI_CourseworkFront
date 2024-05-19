@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUser } from "../mutations/userMutations";
-import { validateEmail, validateUserFormAndSetError } from "../helpers/helpers";
+import { validateUserFormAndSetError } from "../helpers/helpers";
 import { ValidationError } from "../components/ValidationError";
 
 function Login() {

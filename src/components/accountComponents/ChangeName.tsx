@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CompactInput from "../CompactInput";
-import AccountButton from "./AccountButton";
 import { patchUser } from "../../mutations/userMutations";
 import { useState } from "react";
 import { validateUserFormAndSetError } from "../../helpers/helpers";
 import {
-   faFloppyDisk,
    faPen,
    faRightFromBracket
 } from "@fortawesome/free-solid-svg-icons";
