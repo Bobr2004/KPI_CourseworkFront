@@ -34,12 +34,12 @@ const validateUserFormAndSetError = (
    userFields: validateUserFormFieldsType,
    setError: React.Dispatch<React.SetStateAction<string>>
 ): boolean => {
-   for(let field of Object.entries(userFields)){
+   for (let field of Object.entries(userFields)) {
       if (field[1] === "") {
          setError("Всі поля мають бути заповнені!");
          return false;
       }
-   };
+   }
 
    const { email, password, confirmPassword } = userFields;
 
@@ -61,10 +61,14 @@ const validateUserFormAndSetError = (
    return true;
 };
 
+const wait = (sec = 0.5) =>
+   new Promise((resolve, _) => setTimeout(resolve, sec * 1000));
+
 export {
    properQuestionsWord,
    properPointsWord,
    coreDigit,
    validateEmail,
-   validateUserFormAndSetError
+   validateUserFormAndSetError,
+   wait
 };

@@ -2,12 +2,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CompactInput from "../CompactInput";
 import { patchUser } from "../../mutations/userMutations";
 import { useState } from "react";
-import { validateUserFormAndSetError } from "../../helpers/helpers";
+import { validateUserFormAndSetError, wait } from "../../helpers/helpers";
 import { ValidationError } from "../ValidationError";
 import AccountSaveButton from "./AccountSaveButton";
 import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
+import {
+   ButtonStatusError,
+   ButtonStatusSpinner,
+   ButtonStatusSuccess
+} from "./AccountButtonSpinner";
 
-function ChangeEmailForm({ id }: { id: number }) {
+function ChangeEmailForm({ id, backToGui }: { id: number; backToGui: () => void }) {
    const [email, setEmail] = useState("");
 
    // Error messge
@@ -21,8 +26,9 @@ function ChangeEmailForm({ id }: { id: number }) {
 
    const patchUserMutation = useMutation({
       mutationFn: patchUser,
-      onSuccess: ({id}) => {
+      onSuccess: ({ id }) => {
          patchUserOnSuccess(queryClient, id);
+         wait().then(backToGui)
       }
    });
 
@@ -31,6 +37,16 @@ function ChangeEmailForm({ id }: { id: number }) {
       if (validateUserFormAndSetError({ email }, setValidationError)) {
          patchUserMutation.mutate({ id, email });
       }
+   };
+
+   const renderButton = () => {
+      if (patchUserMutation.isPending) return <ButtonStatusSpinner />;
+      if (patchUserMutation.data) return <ButtonStatusSuccess />;
+      if (patchUserMutation.isError)
+         return (
+            <ButtonStatusError>{`${patchUserMutation.error}`}</ButtonStatusError>
+         );
+      return <AccountSaveButton onClick={submitForm} />;
    };
 
    return (
@@ -52,7 +68,7 @@ function ChangeEmailForm({ id }: { id: number }) {
          {validaionErorr && (
             <ValidationError text={validaionErorr} className="text-sm" />
          )}
-         <AccountSaveButton onClick={submitForm}/>
+         {renderButton()}
       </form>
    );
 }

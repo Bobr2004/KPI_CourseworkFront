@@ -2,13 +2,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CompactInput from "../CompactInput";
 import { patchUser } from "../../mutations/userMutations";
 import { useState } from "react";
-import { validateUserFormAndSetError } from "../../helpers/helpers";
+import { validateUserFormAndSetError, wait } from "../../helpers/helpers";
 import { faPen, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SpecialDisplay } from "./SpecialDisplay";
 import { ValidationError } from "../ValidationError";
 import AccountSaveButton from "./AccountSaveButton";
 import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
+import {
+   ButtonStatusError,
+   ButtonStatusSpinner,
+   ButtonStatusSuccess
+} from "./AccountButtonSpinner";
 
 type ChnageNameFormProps = {
    id: number;
@@ -63,15 +68,6 @@ function ChangeNameForm({
    // Error messge
    const [validaionErorr, setValidationError] = useState("");
 
-   const queryClient = useQueryClient();
-
-   const patchUserMutation = useMutation({
-      mutationFn: patchUser,
-      onSuccess: ({ id }) => {
-         patchUserOnSuccess(queryClient, id);
-      }
-   });
-
    const changeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
       setFirstName(e.target.value);
    };
@@ -83,6 +79,18 @@ function ChangeNameForm({
       setFormOpen(false);
    };
 
+   const queryClient = useQueryClient();
+
+   const patchUserMutation = useMutation({
+      mutationFn: patchUser,
+      onSuccess: ({ id }) => {
+         patchUserOnSuccess(queryClient, id);
+         wait().then(() => {
+            backToGui();
+         });
+      }
+   });
+
    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       if (
@@ -93,6 +101,16 @@ function ChangeNameForm({
       ) {
          patchUserMutation.mutate({ id, firstName, lastName });
       }
+   };
+
+   const renderButton = () => {
+      if (patchUserMutation.isPending) return <ButtonStatusSpinner />;
+      if (patchUserMutation.data) return <ButtonStatusSuccess />;
+      if (patchUserMutation.isError)
+         return (
+            <ButtonStatusError>{`${patchUserMutation.error}`}</ButtonStatusError>
+         );
+      return <AccountSaveButton onClick={submitForm} />;
    };
    return (
       <form
@@ -127,7 +145,7 @@ function ChangeNameForm({
          {validaionErorr && (
             <ValidationError text={validaionErorr} className="text-sm" />
          )}
-         <AccountSaveButton onClick={submitForm} />
+         {renderButton()}
       </form>
    );
 }

@@ -1,13 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { patchUser } from "../../mutations/userMutations";
-import { validateUserFormAndSetError } from "../../helpers/helpers";
+import { validateUserFormAndSetError, wait } from "../../helpers/helpers";
 import CompactInput from "../CompactInput";
 import { ValidationError } from "../ValidationError";
 import AccountSaveButton from "./AccountSaveButton";
 import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
+import {
+   ButtonStatusError,
+   ButtonStatusSpinner,
+   ButtonStatusSuccess
+} from "./AccountButtonSpinner";
 
-function ChangePasswordForm({ id }: { id: number }) {
+function ChangePasswordForm({ id, backToGui }: { id: number; backToGui: () => void }) {
    const [password, setPassword] = useState("");
    const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -26,8 +31,9 @@ function ChangePasswordForm({ id }: { id: number }) {
 
    const patchUserMutation = useMutation({
       mutationFn: patchUser,
-      onSuccess: ({id}) => {
+      onSuccess: ({ id }) => {
          patchUserOnSuccess(queryClient, id);
+         wait().then(backToGui)
       }
    });
 
@@ -41,6 +47,16 @@ function ChangePasswordForm({ id }: { id: number }) {
       ) {
          patchUserMutation.mutate({ id, password });
       }
+   };
+
+   const renderButton = () => {
+      if (patchUserMutation.isPending) return <ButtonStatusSpinner />;
+      if (patchUserMutation.data) return <ButtonStatusSuccess />;
+      if (patchUserMutation.isError)
+         return (
+            <ButtonStatusError>{`${patchUserMutation.error}`}</ButtonStatusError>
+         );
+      return <AccountSaveButton onClick={submitForm} />;
    };
 
    return (
@@ -70,7 +86,7 @@ function ChangePasswordForm({ id }: { id: number }) {
             {validaionErorr && (
                <ValidationError text={validaionErorr} className="text-sm" />
             )}
-            <AccountSaveButton onClick={submitForm}/>
+            {renderButton()}
          </div>
       </form>
    );

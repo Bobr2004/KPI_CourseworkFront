@@ -29,8 +29,8 @@ function AccountChange({ id, email }: AccountChnageType) {
    };
 
    let htm: JSX.Element;
-   if (openEmailForm) htm = <ChangeEmailForm id={id} />;
-   else if (openPasswordForm) htm = <ChangePasswordForm id={id} />;
+   if (openEmailForm) htm = <ChangeEmailForm id={id} backToGui={backToGui}/>;
+   else if (openPasswordForm) htm = <ChangePasswordForm id={id} backToGui={backToGui}/>;
    else htm = <ChnageGui {...{ email, toggleEmailForm, togglePasswordForm }} />;
    return (
       <div className="flex flex-col w-full md:w-1/2 gap-2 md:min-h-[235px] justify-between">
