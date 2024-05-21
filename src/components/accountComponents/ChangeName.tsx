@@ -3,14 +3,12 @@ import CompactInput from "../CompactInput";
 import { patchUser } from "../../mutations/userMutations";
 import { useState } from "react";
 import { validateUserFormAndSetError } from "../../helpers/helpers";
-import {
-   faPen,
-   faRightFromBracket
-} from "@fortawesome/free-solid-svg-icons";
+import { faPen, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SpecialDisplay } from "./SpecialDisplay";
 import { ValidationError } from "../ValidationError";
 import AccountSaveButton from "./AccountSaveButton";
+import { patchUserInvalidations } from "../../invalidations/userInvalidation";
 
 type ChnageNameFormProps = {
    id: number;
@@ -27,7 +25,9 @@ function ChnageNameSpecialGui({
    return (
       <>
          {formOpen ? (
-            <ChangeNameForm {...{ id, baseFirstName, baseLastName, setFormOpen }} />
+            <ChangeNameForm
+               {...{ id, baseFirstName, baseLastName, setFormOpen }}
+            />
          ) : (
             <>
                <h2 className="text-xl">
@@ -67,8 +67,10 @@ function ChangeNameForm({
 
    const patchUserMutation = useMutation({
       mutationFn: patchUser,
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      onSuccess: ({ id }) => {
+         console.log(id);
+         console.log(`account/${id}`);
+         patchUserInvalidations(queryClient, id);
       }
    });
 
@@ -127,7 +129,7 @@ function ChangeNameForm({
          {validaionErorr && (
             <ValidationError text={validaionErorr} className="text-sm" />
          )}
-         <AccountSaveButton onClick={submitForm}/>
+         <AccountSaveButton onClick={submitForm} />
       </form>
    );
 }

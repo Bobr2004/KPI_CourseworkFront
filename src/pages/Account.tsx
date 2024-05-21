@@ -4,6 +4,9 @@ import { AccountTest } from "../components/accountComponents/AccountTest";
 import { getAccount } from "../queries/userQueries";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../components/Spinner";
+import { useUser } from "../contexts/UserContext";
+import AccountDelete from "../components/accountComponents/AccountDelete";
+import AccountLeave from "../components/accountComponents/AccountLeave";
 
 function Account() {
    let { id } = useParams();
@@ -12,6 +15,10 @@ function Account() {
       queryKey: [`account/${id}`],
       queryFn: getAccount(Number(id))
    });
+
+   const user = useUser();
+
+   const isCurrentUser = user && user.id === Number(id);
 
    let htm: JSX.Element;
 
@@ -35,7 +42,7 @@ function Account() {
             />
             <h4 className="text-center text-2xl">Архів тестів</h4>
             <div className="flex flex-col gap-2 flex-grow">
-               {data.testList.map(({id, title, receivedPoints, points}) => (
+               {data.testList.map(({ id, title, receivedPoints, points }) => (
                   <AccountTest
                      id={id}
                      title={title}

@@ -5,6 +5,8 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { ChangePasswordForm } from "./ChangePassword";
 import { ChangeEmailForm } from "./ChnageEmail";
 import { SpecialDisplay } from "./SpecialDisplay";
+import AccountDelete from "./AccountDelete";
+import AccountLeave from "./AccountLeave";
 
 type AccountChnageType = {
    id: number;
@@ -31,18 +33,24 @@ function AccountChange({ id, email }: AccountChnageType) {
    else if (openPasswordForm) htm = <ChangePasswordForm id={id} />;
    else htm = <ChnageGui {...{ email, toggleEmailForm, togglePasswordForm }} />;
    return (
-      <div className="flex flex-col gap-2 border border-stone-600 p-2 bg-stone-100 rounded-lg w-full md:w-1/2 relative">
-         <SpecialDisplay />
-         {(openEmailForm || openPasswordForm) && (
-            <button
-               className="absolute top-2 right-2 hover-stone-cs px-2"
-               onClick={backToGui}
-            >
-               <FontAwesomeIcon icon={faRightFromBracket} />
-            </button>
-         )}
+      <div className="flex flex-col w-full md:w-1/2 gap-2 md:min-h-[235px] justify-between">
+         <div className="flex flex-col gap-2 border border-stone-600 p-2 bg-stone-100 rounded-lg w-full relative">
+            <SpecialDisplay />
+            {(openEmailForm || openPasswordForm) && (
+               <button
+                  className="absolute top-2 right-2 hover-stone-cs px-2"
+                  onClick={backToGui}
+               >
+                  <FontAwesomeIcon icon={faRightFromBracket} />
+               </button>
+            )}
 
-         {htm}
+            {htm}
+         </div>
+         <div className="flex gap-4 p-2 justify-center">
+            <AccountDelete />
+            <AccountLeave />
+         </div>
       </div>
    );
 }
@@ -59,7 +67,7 @@ function ChnageGui({
    togglePasswordForm
 }: ChangeGuiProps) {
    return (
-      <div className="flex flex-col gap-2 h-full justify-between">
+      <div className="flex flex-col gap-4 h-full justify-between">
          <div className="flex flex-col">
             <p>Електронна адреса:</p>
             <p>{email}</p>

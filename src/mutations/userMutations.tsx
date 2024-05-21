@@ -1,5 +1,12 @@
 import { learnCredintialsAPI } from "../config/serverConfig";
 
+
+// JSON that i recieve whenever i reg, log, or patch user
+type UserMutationsRecieve = {
+   id: number;
+}
+// 
+
 // SEND login user credentials and receive JWT cookie
 type loginUserType = {
    email: string;
@@ -7,8 +14,11 @@ type loginUserType = {
 };
 
 const loginUser = async (userLogData: loginUserType) => {
-   const response = await learnCredintialsAPI.post("/login-user", userLogData);
-   return response;
+   const { data }: { data: UserMutationsRecieve } = await learnCredintialsAPI.post(
+      "/login-user",
+      userLogData
+   );
+   return data;
 };
 //
 
@@ -21,8 +31,8 @@ type createUserType = {
 };
 
 const createUser = async (userRegData: createUserType) => {
-   const response = await learnCredintialsAPI.post("/create-user", userRegData);
-   return response;
+   const { data }: { data: UserMutationsRecieve } = await learnCredintialsAPI.post("/create-user", userRegData);
+   return data;
 };
 //
 
@@ -31,12 +41,12 @@ type patchUserType = {
    firstName?: string;
    lastName?: string;
    email?: string;
-   password?: string
+   password?: string;
 };
 
 const patchUser = async (userRegData: patchUserType) => {
-   const response = await learnCredintialsAPI.patch("/patch-user", userRegData);
-   return response;
+   const { data }: { data: UserMutationsRecieve } = await learnCredintialsAPI.patch("/patch-user", userRegData);
+   return data;
 };
 
 export { loginUser, createUser, patchUser };

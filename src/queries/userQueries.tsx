@@ -9,7 +9,7 @@ type UserContextProps = {
 };
 
 const currentUser = async () => {
-   const { data }: { data: UserContextProps } = await learnAPI.get(
+   const { data }: { data: UserContextProps } = await learnCredintialsAPI.get(
       `/current-user`
    );
    return data;

@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AccountChange from "./AccountChange";
 import { useUser } from "../../contexts/UserContext";
 import { ChnageNameSpecialGui } from "./ChangeName";
+import AccountDelete from "./AccountDelete";
+import AccountLeave from "./AccountLeave";
 
 type AccountDataProps = {
    id: number;
@@ -44,31 +46,33 @@ function AccountData({
    const isCurrentUser = user && user.id === id;
 
    return (
-      <div className="flex gap-4 flex-col md:flex-row">
-         <FontAwesomeIcon icon={roleIcon} className="h-[164px]" />
-         <div className="flex flex-col gap-2 p-2 w-full md:w-1/2">
-            <div className="flex gap-2">
-               {!isCurrentUser ? (
-                  <h2 className="text-xl">
-                     {lastName} {firstName}
-                  </h2>
-               ) : (
-                  <ChnageNameSpecialGui
-                     id={id}
-                     baseFirstName={firstName}
-                     baseLastName={lastName}
-                  />
-               )}
+      <>
+         <div className="flex gap-4 flex-col items:center md:flex-row md:items-start">
+            <FontAwesomeIcon icon={roleIcon} className="h-[164px]" />
+            <div className="flex flex-col gap-2 w-full md:w-1/2 mb-2 md:mb-0">
+               <div className="flex gap-2">
+                  {!isCurrentUser ? (
+                     <h2 className="text-xl">
+                        {lastName} {firstName}
+                     </h2>
+                  ) : (
+                     <ChnageNameSpecialGui
+                        id={id}
+                        baseFirstName={firstName}
+                        baseLastName={lastName}
+                     />
+                  )}
+               </div>
+               <h3>
+                  Роль: <b>{roleName}</b>
+               </h3>
+               <p>
+                  Загальний бал: <b>{score}</b>
+               </p>
             </div>
-            <h3>
-               Роль: <b>{roleName}</b>
-            </h3>
-            <p>
-               Загальний бал: <b>{score}</b>
-            </p>
+            {isCurrentUser && <AccountChange id={id} email={email} />}
          </div>
-         {isCurrentUser && <AccountChange id={id} email={email} />}
-      </div>
+      </>
    );
 }
 
