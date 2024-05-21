@@ -17,7 +17,6 @@ function Lesson({ id, num, title }: LessonProps) {
    const [searchParams, setSearchParams] = useSearchParams();
    let isExpanded;
    if (searchParams.get(`expanded_${id}`)) {
-      console.log(Boolean(searchParams.get(`expanded_${id}`)));
       isExpanded = Boolean(searchParams.get(`expanded_${id}`));
    } else isExpanded = false;
 

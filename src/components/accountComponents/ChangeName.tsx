@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SpecialDisplay } from "./SpecialDisplay";
 import { ValidationError } from "../ValidationError";
 import AccountSaveButton from "./AccountSaveButton";
-import { patchUserInvalidations } from "../../invalidations/userInvalidation";
+import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
 
 type ChnageNameFormProps = {
    id: number;
@@ -68,9 +68,7 @@ function ChangeNameForm({
    const patchUserMutation = useMutation({
       mutationFn: patchUser,
       onSuccess: ({ id }) => {
-         console.log(id);
-         console.log(`account/${id}`);
-         patchUserInvalidations(queryClient, id);
+         patchUserOnSuccess(queryClient, id);
       }
    });
 

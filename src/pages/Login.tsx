@@ -2,12 +2,13 @@ import { useState } from "react";
 import Input from "../components/Input";
 import ModalForm from "../components/ModalForm";
 import Button from "../components/Button";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUser } from "../mutations/userMutations";
 import { validateUserFormAndSetError } from "../helpers/helpers";
 import { ValidationError } from "../components/ValidationError";
+import { authUserOnSuccess} from "../invalidations/userInvalidation";
 
 function Login() {
    const [email, setEmail] = useState("");
@@ -25,11 +26,12 @@ function Login() {
    };
 
    const queryClient = useQueryClient();
+   const redirect = useNavigate();
 
    const loginMutation = useMutation({
       mutationFn: loginUser,
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      onSuccess: ({id}) => {
+         authUserOnSuccess(queryClient, id, redirect);
       },
       onError: ()=>{
          setValidationError("Email чи пароль не вірні");

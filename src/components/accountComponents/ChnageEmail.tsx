@@ -5,6 +5,7 @@ import { useState } from "react";
 import { validateUserFormAndSetError } from "../../helpers/helpers";
 import { ValidationError } from "../ValidationError";
 import AccountSaveButton from "./AccountSaveButton";
+import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
 
 function ChangeEmailForm({ id }: { id: number }) {
    const [email, setEmail] = useState("");
@@ -20,8 +21,8 @@ function ChangeEmailForm({ id }: { id: number }) {
 
    const patchUserMutation = useMutation({
       mutationFn: patchUser,
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      onSuccess: ({id}) => {
+         patchUserOnSuccess(queryClient, id);
       }
    });
 

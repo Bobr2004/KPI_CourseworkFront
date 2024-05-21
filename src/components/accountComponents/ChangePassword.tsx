@@ -5,6 +5,7 @@ import { validateUserFormAndSetError } from "../../helpers/helpers";
 import CompactInput from "../CompactInput";
 import { ValidationError } from "../ValidationError";
 import AccountSaveButton from "./AccountSaveButton";
+import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
 
 function ChangePasswordForm({ id }: { id: number }) {
    const [password, setPassword] = useState("");
@@ -25,8 +26,8 @@ function ChangePasswordForm({ id }: { id: number }) {
 
    const patchUserMutation = useMutation({
       mutationFn: patchUser,
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      onSuccess: ({id}) => {
+         patchUserOnSuccess(queryClient, id);
       }
    });
 
