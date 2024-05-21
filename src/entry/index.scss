@@ -26,11 +26,11 @@ body,
 
 
 .divider-cs {
-   @apply bg-stone-400 h-px;
+   @apply bg-stone-600 h-px;
 }
 
 .hover-stone-cs:hover .divider-cs {
-   @apply bg-stone-600;
+   @apply bg-stone-800;
 }
 
 .hover-failed-cs {
@@ -47,4 +47,22 @@ body,
 
 .hover-success-bg-cs{
    @apply bg-green-400;
+}
+
+
+.ease-test{
+   @apply bg-green-400;
+}
+
+.mid-test{
+   @apply bg-blue-400;
+}
+
+.hard-test{
+   @apply bg-orange-400;
+}
+
+.activeCategory{
+   @apply bg-stone-300;
+   // transform: translate(20px,0);
 }

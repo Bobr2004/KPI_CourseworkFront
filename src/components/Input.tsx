@@ -16,7 +16,7 @@ function Input({ placeholder, type, val, changeVal }: InputType) {
          <input
             value={val}
             type={type}
-            className="w-full p-2 rounded-lg bg-stone-200 hover-stone-cs focus-stone-cs"
+            className="w-full p-2 rounded-lg hover-stone-cs focus-stone-cs"
             placeholder=" "
             onChange={changeVal}
          />
