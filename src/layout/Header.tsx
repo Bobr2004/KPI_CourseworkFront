@@ -3,21 +3,52 @@ import { routes } from "../config/routes";
 import { useUser } from "../contexts/UserContext";
 import Spinner from "../components/Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartSimple, faHouse, faUser} from "@fortawesome/free-solid-svg-icons";
+import {
+   faChartSimple,
+   faEye,
+   faGear,
+   faHouse,
+   faUser
+} from "@fortawesome/free-solid-svg-icons";
+import { useMemo } from "react";
 
 function Header() {
    const currentUser = useUser();
+   const isAdmin = useMemo(
+      () => currentUser?.role === "admin",
+      [currentUser?.role]
+   );
+   const isEdit = useMemo(() => currentUser?.editMode, [currentUser?.editMode]);
 
    let htm: JSX.Element;
 
    if (currentUser === undefined) htm = <Spinner height="1.5rem" />;
    else if (currentUser === null)
-      htm = <NavLink to={routes.log}>Cabin</NavLink>;
+      htm = <NavLink to={routes.log}>Увійти</NavLink>;
    else
       htm = (
-         <NavLink to={routes.toAccount(currentUser.id)}>
-            {currentUser.firstName} <FontAwesomeIcon icon={faUser} />
-         </NavLink>
+         <div className="flex gap-4">
+            {isAdmin && isEdit ? (
+               <button
+                  className="hover-stone-cs px-2"
+                  onClick={currentUser.exitEditMode}
+                  title="Режим перегляду"
+               >
+                  <FontAwesomeIcon icon={faEye} />
+               </button>
+            ) : (
+               <button
+                  className="hover-stone-cs px-2"
+                  onClick={currentUser.enterEditMode}
+                  title="Режим редаугвання"
+               >
+                  <FontAwesomeIcon icon={faGear} />
+               </button>
+            )}
+            <NavLink to={routes.toAccount(currentUser.id)}>
+               {currentUser.firstName} <FontAwesomeIcon icon={faUser} />
+            </NavLink>
+         </div>
       );
 
    return (

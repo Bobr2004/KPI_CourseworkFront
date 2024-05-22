@@ -8,7 +8,7 @@ function AccountDelete() {
       <button
          className="hover-stone-cs bg-red-400 py-2 px-4"
          onClick={() => {
-            modals?.openModal("delete");
+            modals?.openModal({subject: "user", action: "delete"});
          }}
       >
          Видалити <FontAwesomeIcon icon={faTrash} />

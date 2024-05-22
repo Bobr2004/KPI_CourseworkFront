@@ -1,19 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { LessonProps, getLesson } from "../queries/lessonQueries";
 import Spinner from "./Spinner";
 import { Test } from "./Test";
 import { Theory } from "./Theory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-   faCaretDown,
-   faCaretUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { useUser } from "../contexts/UserContext";
+import DeleteElement from "./DeleteElement";
+import EditElement from "./EditElement";
+import { useModal } from "../contexts/ModalContext";
 
 // Lesson num - sequence number
 
 function Lesson({ id, num, title }: LessonProps) {
+   const modals = useModal();
+   const currentUser = useUser();
+   const isEdit = useMemo(() => currentUser?.editMode, [currentUser?.editMode]);
    const [searchParams, setSearchParams] = useSearchParams();
    let isExpanded;
    if (searchParams.get(`expanded_${id}`)) {
@@ -27,10 +31,26 @@ function Lesson({ id, num, title }: LessonProps) {
    };
 
    return (
-      <div className="border border-stone-600 bg-stone-100 rounded-lg w-full overflow-hidden">
-         <div className=" bg-stone-200 border-b border-stone-600 p-4 relative">
+      <div className="border border-stone-600 bg-stone-100 rounded-t-lg w-full">
+         <div className=" bg-stone-100 border-b border-stone-600 p-4 rounded-t-lg relative">
+            {isEdit && (
+               <DeleteElement
+                  onClick={() =>
+                     modals?.openModal({
+                        subject: "lesson",
+                        id,
+                        action: "delete"
+                     })
+                  }
+               />
+            )}
             <div className="absolute top-4 left-4">{num}</div>
-            <h2 className="text-center">{title}</h2>
+            <div className="flex justify-center">
+               <h2 className="text-center relative ">
+                  {isEdit && <EditElement />}
+                  {title}
+               </h2>
+            </div>
 
             <button
                onClick={toggleExpand}

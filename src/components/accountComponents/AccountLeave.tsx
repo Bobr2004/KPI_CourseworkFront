@@ -7,7 +7,9 @@ function AccountLeave() {
    return (
       <button
          className="hover-stone-cs bg-blue-400 py-2 px-4"
-         onClick={() => {modals?.openModal("exit")}}
+         onClick={() => {
+            modals?.openModal({ subject: "user", action: "exit" });
+         }}
       >
          Вийти <FontAwesomeIcon icon={faRightFromBracket} />
       </button>
