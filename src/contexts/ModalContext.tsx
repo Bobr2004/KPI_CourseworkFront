@@ -10,7 +10,7 @@ type ModalContextProps = {
 const ModalContext = createContext<ModalContextProps | null | undefined>(null);
 
 function ModalContextProvider({ children }: { children: ReactNode }) {
-   const [modal, setModal] = useState("exit");
+   const [modal, setModal] = useState("");
 
    const close = () => {
       setModal("");

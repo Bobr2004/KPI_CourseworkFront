@@ -4,15 +4,18 @@ import { patchUser } from "../../mutations/userMutations";
 import { useState } from "react";
 import { validateUserFormAndSetError, wait } from "../../helpers/helpers";
 import { ValidationError } from "../ValidationError";
-import AccountSaveButton from "./AccountSaveButton";
 import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
-import {
-   ButtonStatusError,
-   ButtonStatusSpinner,
-   ButtonStatusSuccess
-} from "./AccountButtonSpinner";
+import StatusButton from "../StatusButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 
-function ChangeEmailForm({ id, backToGui }: { id: number; backToGui: () => void }) {
+function ChangeEmailForm({
+   id,
+   backToGui
+}: {
+   id: number;
+   backToGui: () => void;
+}) {
    const [email, setEmail] = useState("");
 
    // Error messge
@@ -24,29 +27,25 @@ function ChangeEmailForm({ id, backToGui }: { id: number; backToGui: () => void 
 
    const queryClient = useQueryClient();
 
-   const patchUserMutation = useMutation({
+   const {
+      isPending,
+      isError,
+      data: res,
+      error,
+      mutate
+   } = useMutation({
       mutationFn: patchUser,
       onSuccess: ({ id }) => {
          patchUserOnSuccess(queryClient, id);
-         wait().then(backToGui)
+         wait().then(backToGui);
       }
    });
 
    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       if (validateUserFormAndSetError({ email }, setValidationError)) {
-         patchUserMutation.mutate({ id, email });
+         mutate({ id, email });
       }
-   };
-
-   const renderButton = () => {
-      if (patchUserMutation.isPending) return <ButtonStatusSpinner />;
-      if (patchUserMutation.data) return <ButtonStatusSuccess />;
-      if (patchUserMutation.isError)
-         return (
-            <ButtonStatusError>{`${patchUserMutation.error}`}</ButtonStatusError>
-         );
-      return <AccountSaveButton onClick={submitForm} />;
    };
 
    return (
@@ -68,7 +67,19 @@ function ChangeEmailForm({ id, backToGui }: { id: number; backToGui: () => void 
          {validaionErorr && (
             <ValidationError text={validaionErorr} className="text-sm" />
          )}
-         {renderButton()}
+         <StatusButton
+            isPending={isPending}
+            isError={isError}
+            error={`${error}`}
+            res={res}
+         >
+            <button
+               className="px-2 rounded-lg bg-amber-400 hover-stone-cs text-center"
+               onClick={submitForm}
+            >
+               Збергти <FontAwesomeIcon icon={faFloppyDisk} />
+            </button>
+         </StatusButton>
       </form>
    );
 }

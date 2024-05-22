@@ -1,14 +1,14 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import ModalForm from "../components/ModalForm";
-import Button from "../components/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUser } from "../mutations/userMutations";
 import { validateUserFormAndSetError } from "../helpers/helpers";
 import { ValidationError } from "../components/ValidationError";
-import { authUserOnSuccess} from "../invalidations/userInvalidation";
+import { authUserOnSuccess } from "../invalidations/userInvalidation";
+import StatusButton from "../components/StatusButton";
 
 function Login() {
    const [email, setEmail] = useState("");
@@ -28,12 +28,18 @@ function Login() {
    const queryClient = useQueryClient();
    const redirect = useNavigate();
 
-   const loginMutation = useMutation({
+   const {
+      isPending,
+      isError,
+      data: res,
+      error,
+      mutate
+   } = useMutation({
       mutationFn: loginUser,
-      onSuccess: ({id}) => {
+      onSuccess: ({ id }) => {
          authUserOnSuccess(queryClient, id, redirect);
       },
-      onError: ()=>{
+      onError: () => {
          setValidationError("Email чи пароль не вірні");
       }
    });
@@ -41,12 +47,9 @@ function Login() {
    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       if (
-         validateUserFormAndSetError(
-            {email, password},
-            setValidationError
-         )
+         validateUserFormAndSetError({ email, password }, setValidationError)
       ) {
-         loginMutation.mutate({email, password });
+         mutate({ email, password });
       }
    };
 
@@ -66,10 +69,22 @@ function Login() {
                val={password}
                changeVal={changePassword}
             />
-            {validaionErorr && (
-               <ValidationError text={validaionErorr}/>
-            )}
-            <Button onClick={submitForm}>Увійти</Button>
+            {validaionErorr && <ValidationError text={validaionErorr} />}
+            {/* <Button onClick={submitForm}>Увійти</Button> */}
+            <StatusButton
+               isPending={isPending}
+               isError={isError}
+               error={`${error}`}
+               res={res}
+               className="px-8 py-2 w-1/2"
+            >
+               <button
+                  className="px-8 py-2 rounded-lg bg-amber-400 hover-stone-cs w-1/2"
+                  onClick={submitForm}
+               >
+                  Увійти
+               </button>
+            </StatusButton>
             <div>
                Ще немає аккаунта?{" "}
                <NavLink

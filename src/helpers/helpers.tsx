@@ -52,7 +52,7 @@ const validateUserFormAndSetError = (
       setError("Пароль має містити не менше 8 символів!");
       return false;
    }
-   if (password && password !== confirmPassword) {
+   if (confirmPassword && password !== confirmPassword) {
       setError("Пароль та підтвердження не збігаються!");
       return false;
    }

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import ModalForm from "../components/ModalForm";
-import Button from "../components/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../config/routes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUser } from "../mutations/userMutations";
 import { validateUserFormAndSetError } from "../helpers/helpers";
 import { ValidationError } from "../components/ValidationError";
-import { authUserOnSuccess} from "../invalidations/userInvalidation";
+import { authUserOnSuccess } from "../invalidations/userInvalidation";
+import StatusButton from "../components/StatusButton";
 
 function Registration() {
    const [firstName, setFirstName] = useState("");
@@ -42,9 +42,15 @@ function Registration() {
    const queryClient = useQueryClient();
    const redirect = useNavigate();
 
-   const createUserMutation = useMutation({
+   const {
+      isPending,
+      isError,
+      data: res,
+      error,
+      mutate
+   } = useMutation({
       mutationFn: createUser,
-      onSuccess: ({id}) => {
+      onSuccess: ({ id }) => {
          authUserOnSuccess(queryClient, id, redirect);
       }
    });
@@ -57,7 +63,7 @@ function Registration() {
             setValidationError
          )
       ) {
-         createUserMutation.mutate({ firstName, lastName, email, password });
+         mutate({ firstName, lastName, email, password });
       }
    };
 
@@ -95,10 +101,21 @@ function Registration() {
                val={confirmPassword}
                changeVal={changeConfirmPassword}
             />
-            {validaionErorr && (
-               <ValidationError text={validaionErorr}/>
-            )}
-            <Button onClick={submitForm}>Зарєструватися</Button>
+            {validaionErorr && <ValidationError text={validaionErorr} />}
+            <StatusButton
+               isPending={isPending}
+               isError={isError}
+               error={`${error}`}
+               res={res}
+               className="px-8 py-2 w-2/3 sm:w-1/2"
+            >
+               <button
+                  className="px-8 py-2 rounded-lg bg-amber-400 hover-stone-cs w-2/3 sm:w-1/2"
+                  onClick={submitForm}
+               >
+                  Зареєструватися
+               </button>
+            </StatusButton>
             <div>
                Вже маєте аккаунт?{" "}
                <NavLink

@@ -3,17 +3,17 @@ import CompactInput from "../CompactInput";
 import { patchUser } from "../../mutations/userMutations";
 import { useState } from "react";
 import { validateUserFormAndSetError, wait } from "../../helpers/helpers";
-import { faPen, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+   faFloppyDisk,
+   faPen,
+   faRightFromBracket
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SpecialDisplay } from "./SpecialDisplay";
 import { ValidationError } from "../ValidationError";
-import AccountSaveButton from "./AccountSaveButton";
 import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
-import {
-   ButtonStatusError,
-   ButtonStatusSpinner,
-   ButtonStatusSuccess
-} from "./AccountButtonSpinner";
+
+import StatusButton from "../StatusButton";
 
 type ChnageNameFormProps = {
    id: number;
@@ -81,13 +81,17 @@ function ChangeNameForm({
 
    const queryClient = useQueryClient();
 
-   const patchUserMutation = useMutation({
+   const {
+      isPending,
+      isError,
+      data: res,
+      error,
+      mutate
+   } = useMutation({
       mutationFn: patchUser,
       onSuccess: ({ id }) => {
          patchUserOnSuccess(queryClient, id);
-         wait().then(() => {
-            backToGui();
-         });
+         wait().then(backToGui);
       }
    });
 
@@ -99,19 +103,10 @@ function ChangeNameForm({
             setValidationError
          )
       ) {
-         patchUserMutation.mutate({ id, firstName, lastName });
+         mutate({ id, firstName, lastName });
       }
    };
 
-   const renderButton = () => {
-      if (patchUserMutation.isPending) return <ButtonStatusSpinner />;
-      if (patchUserMutation.data) return <ButtonStatusSuccess />;
-      if (patchUserMutation.isError)
-         return (
-            <ButtonStatusError>{`${patchUserMutation.error}`}</ButtonStatusError>
-         );
-      return <AccountSaveButton onClick={submitForm} />;
-   };
    return (
       <form
          className="flex flex-col gap-2 border border-stone-600 p-2 bg-stone-100 rounded-lg w-full relative"
@@ -145,7 +140,19 @@ function ChangeNameForm({
          {validaionErorr && (
             <ValidationError text={validaionErorr} className="text-sm" />
          )}
-         {renderButton()}
+         <StatusButton
+            isPending={isPending}
+            isError={isError}
+            error={`${error}`}
+            res={res}
+         >
+            <button
+               className="px-2 rounded-lg bg-amber-400 hover-stone-cs text-center"
+               onClick={submitForm}
+            >
+               Збергти <FontAwesomeIcon icon={faFloppyDisk} />
+            </button>
+         </StatusButton>
       </form>
    );
 }

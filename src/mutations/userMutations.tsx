@@ -42,22 +42,22 @@ type patchUserType = {
    password?: string;
 };
 
-const patchUser = async (userRegData: patchUserType) => {
+const patchUser = async (userPatchData: patchUserType) => {
    const { data }: { data: UserMutationsRecieve } =
-      await learnCredintialsAPI.patch("/patch-user", userRegData);
+      await learnCredintialsAPI.patch("/patch-user", userPatchData);
    return data;
 };
 
 const logoutUser = async () => {
-   const res = await learnCredintialsAPI.post("/log-out");
+   const res = await learnCredintialsAPI.post("/logout-user");
    return res;
 };
 
 const deleteUser = async () => {
-   const res = await learnCredintialsAPI.delete("/delete");
+   const res = await learnCredintialsAPI.delete("/delete-user");
    return res;
 };
 
-export { loginUser, createUser, patchUser, logoutUser };
+export { loginUser, createUser, patchUser, logoutUser, deleteUser };
 
 export type { loginUserType, createUserType, patchUserType };

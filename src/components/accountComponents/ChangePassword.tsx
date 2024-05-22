@@ -4,15 +4,18 @@ import { patchUser } from "../../mutations/userMutations";
 import { validateUserFormAndSetError, wait } from "../../helpers/helpers";
 import CompactInput from "../CompactInput";
 import { ValidationError } from "../ValidationError";
-import AccountSaveButton from "./AccountSaveButton";
 import { patchUserOnSuccess } from "../../invalidations/userInvalidation";
-import {
-   ButtonStatusError,
-   ButtonStatusSpinner,
-   ButtonStatusSuccess
-} from "./AccountButtonSpinner";
+import StatusButton from "../StatusButton";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function ChangePasswordForm({ id, backToGui }: { id: number; backToGui: () => void }) {
+function ChangePasswordForm({
+   id,
+   backToGui
+}: {
+   id: number;
+   backToGui: () => void;
+}) {
    const [password, setPassword] = useState("");
    const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -29,11 +32,17 @@ function ChangePasswordForm({ id, backToGui }: { id: number; backToGui: () => vo
 
    const queryClient = useQueryClient();
 
-   const patchUserMutation = useMutation({
+   const {
+      isPending,
+      isError,
+      data: res,
+      error,
+      mutate
+   } = useMutation({
       mutationFn: patchUser,
       onSuccess: ({ id }) => {
          patchUserOnSuccess(queryClient, id);
-         wait().then(backToGui)
+         wait().then(backToGui);
       }
    });
 
@@ -45,18 +54,8 @@ function ChangePasswordForm({ id, backToGui }: { id: number; backToGui: () => vo
             setValidationError
          )
       ) {
-         patchUserMutation.mutate({ id, password });
+         mutate({ id, password });
       }
-   };
-
-   const renderButton = () => {
-      if (patchUserMutation.isPending) return <ButtonStatusSpinner />;
-      if (patchUserMutation.data) return <ButtonStatusSuccess />;
-      if (patchUserMutation.isError)
-         return (
-            <ButtonStatusError>{`${patchUserMutation.error}`}</ButtonStatusError>
-         );
-      return <AccountSaveButton onClick={submitForm} />;
    };
 
    return (
@@ -86,7 +85,19 @@ function ChangePasswordForm({ id, backToGui }: { id: number; backToGui: () => vo
             {validaionErorr && (
                <ValidationError text={validaionErorr} className="text-sm" />
             )}
-            {renderButton()}
+            <StatusButton
+               isPending={isPending}
+               isError={isError}
+               error={`${error}`}
+               res={res}
+            >
+               <button
+                  className="px-2 rounded-lg bg-amber-400 hover-stone-cs text-center"
+                  onClick={submitForm}
+               >
+                  Збергти <FontAwesomeIcon icon={faFloppyDisk} />
+               </button>
+            </StatusButton>
          </div>
       </form>
    );
