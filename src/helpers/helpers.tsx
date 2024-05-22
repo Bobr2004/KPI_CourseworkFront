@@ -61,8 +61,12 @@ const validateUserFormAndSetError = (
    return true;
 };
 
+
+
 const wait = (sec = 0.5) =>
    new Promise((resolve, _) => setTimeout(resolve, sec * 1000));
+
+
 
 export {
    properQuestionsWord,

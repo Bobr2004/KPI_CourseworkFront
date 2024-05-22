@@ -1,11 +1,10 @@
 import { learnCredintialsAPI } from "../config/serverConfig";
 
-
 // JSON that i recieve whenever i reg, log, or patch user
 type UserMutationsRecieve = {
    id: number;
-}
-// 
+};
+//
 
 // SEND login user credentials and receive JWT cookie
 type loginUserType = {
@@ -14,10 +13,8 @@ type loginUserType = {
 };
 
 const loginUser = async (userLogData: loginUserType) => {
-   const { data }: { data: UserMutationsRecieve } = await learnCredintialsAPI.post(
-      "/login-user",
-      userLogData
-   );
+   const { data }: { data: UserMutationsRecieve } =
+      await learnCredintialsAPI.post("/login-user", userLogData);
    return data;
 };
 //
@@ -31,7 +28,8 @@ type createUserType = {
 };
 
 const createUser = async (userRegData: createUserType) => {
-   const { data }: { data: UserMutationsRecieve } = await learnCredintialsAPI.post("/create-user", userRegData);
+   const { data }: { data: UserMutationsRecieve } =
+      await learnCredintialsAPI.post("/create-user", userRegData);
    return data;
 };
 //
@@ -45,10 +43,21 @@ type patchUserType = {
 };
 
 const patchUser = async (userRegData: patchUserType) => {
-   const { data }: { data: UserMutationsRecieve } = await learnCredintialsAPI.patch("/patch-user", userRegData);
+   const { data }: { data: UserMutationsRecieve } =
+      await learnCredintialsAPI.patch("/patch-user", userRegData);
    return data;
 };
 
-export { loginUser, createUser, patchUser };
+const logoutUser = async () => {
+   const res = await learnCredintialsAPI.post("/log-out");
+   return res;
+};
+
+const deleteUser = async () => {
+   const res = await learnCredintialsAPI.delete("/delete");
+   return res;
+};
+
+export { loginUser, createUser, patchUser, logoutUser };
 
 export type { loginUserType, createUserType, patchUserType };
