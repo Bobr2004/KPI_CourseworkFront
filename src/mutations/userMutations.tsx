@@ -34,6 +34,8 @@ const createUser = async (userRegData: createUserType) => {
 };
 //
 
+
+// SEND patch user cretentials and update info
 type patchUserType = {
    id: number;
    firstName?: string;
@@ -47,16 +49,24 @@ const patchUser = async (userPatchData: patchUserType) => {
       await learnCredintialsAPI.patch("/patch-user", userPatchData);
    return data;
 };
+// 
 
+
+
+// ATTACH JWT cookie and remove cookie  
 const logoutUser = async () => {
    const res = await learnCredintialsAPI.post("/logout-user");
    return res;
 };
+// 
 
+
+// ATTACH JWT cookie, remove it and delete user 
 const deleteUser = async () => {
    const res = await learnCredintialsAPI.delete("/delete-user");
    return res;
 };
+// 
 
 export { loginUser, createUser, patchUser, logoutUser, deleteUser };
 

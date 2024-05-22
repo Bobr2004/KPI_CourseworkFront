@@ -43,6 +43,7 @@ const getLesson = (id: number) => async () => {
 
 type TheoryPageProps = {
    id: number;
+   lessonTitle: string;
    title: string;
    html: string;
    author: string;
@@ -58,6 +59,7 @@ const getTheory = (id: number) => async () => {
 // GET all data about SPECIFIC Test
 type TestPageProps = {
    id: number;
+   lessonTitle: string;
    title: string;
    quizes: QuizProps[];
    points: number;

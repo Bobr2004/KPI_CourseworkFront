@@ -71,3 +71,29 @@ body,
 .transparentBg {
    background-color: rgba(0,0,0,0.15);
 }
+
+
+.theoryHtml{
+   h2{
+      // margin-top: 1rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      // margin-bottom: 0.5rem;
+   }
+
+   code {
+      background-color: black;
+      @apply text-green-400;
+      padding: 1rem;
+   }
+
+   ul {
+      list-style: circle;
+      li {
+         margin-left: 1rem;
+      }
+   }
+   a {
+      @apply text-blue-500 underline underline-offset-2 hover:text-blue-600;
+   }
+}
