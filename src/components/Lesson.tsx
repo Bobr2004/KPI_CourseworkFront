@@ -38,7 +38,7 @@ function Lesson({ id, num, title }: LessonProps) {
                   onClick={() =>
                      modals?.openModal({
                         subject: "lesson",
-                        id,
+                        data: { id },
                         action: "delete"
                      })
                   }

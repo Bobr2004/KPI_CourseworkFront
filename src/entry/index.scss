@@ -97,3 +97,10 @@ body,
       @apply text-blue-500 underline underline-offset-2 hover:text-blue-600;
    }
 }
+
+
+.editHtml{
+   border: 1px solid #000;
+   padding: 1rem;
+   @apply rounded-lg;
+}
