@@ -4,10 +4,11 @@ import Overlay from "../components/modals/Overlay";
 import { TheoryPatchSubmit } from "../components/modals/TheoryModals";
 import {
    ElementDeleteSubmit,
+   ElementPatchSubmit,
    ElementPostSubmit
 } from "../components/modals/ElementModals";
-import PostElement from "../components/postElement";
 import { QuizPostSubmit } from "../components/modals/QuizModals";
+import ErrorModal from "../components/modals/ErrorModal";
 
 type openModalParams = { subject: string; data?: any; action: string };
 
@@ -51,7 +52,7 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
             case "exit":
                return <ExitSubmit close={close} />;
             default:
-               return <>pivo</>;
+               return <ErrorModal close={close} />;
          }
       }
       if (modal.subject === "element") {
@@ -70,8 +71,16 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
                      <ElementPostSubmit close={close} />
                   </>
                );
+            case "patch":
+               return (
+                  <>
+                     {modal.data && (
+                        <ElementPatchSubmit close={close} data={modal.data} />
+                     )}
+                  </>
+               );
             default:
-               <>pivo</>;
+               return <ErrorModal close={close} />;
          }
       }
       if (modal.subject === "lesson") {
@@ -79,7 +88,7 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
             case "patch":
                return <ExitSubmit close={close} />;
             default:
-               return <>pivo</>;
+               return <ErrorModal close={close} />;
          }
       }
       if (modal.subject === "theory") {
@@ -87,7 +96,7 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
             case "patch":
                return <TheoryPatchSubmit close={close} data={modal.data} />;
             default:
-               return <>pivo</>;
+               return <ErrorModal close={close} />;
          }
       }
       if (modal.subject === "quiz") {
@@ -100,9 +109,10 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
                   />
                );
             default:
-               return <>pivo</>;
+               return <ErrorModal close={close} />;
          }
       }
+      return <ErrorModal close={close} />;
    };
 
    return (

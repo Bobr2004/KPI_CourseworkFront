@@ -4,8 +4,8 @@ import StatusButton from "../StatusButton";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { postQuiz } from "../../mutations/adminTestMutations";
 import CompactInput from "../CompactInput";
+import { postQuiz } from "../../mutations/adminMutations";
 
 function QuizPostSubmit({
    close,

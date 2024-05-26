@@ -47,7 +47,17 @@ function Lesson({ id, num, title }: LessonProps) {
             <div className="absolute top-4 left-4">{num}</div>
             <div className="flex justify-center">
                <h2 className="text-center relative ">
-                  {isEdit && <EditElement />}
+                  {isEdit && (
+                     <EditElement
+                        onClick={() =>
+                           modals?.openModal({
+                              subject: "element",
+                              data: { element: "lesson", id, title },
+                              action: "patch"
+                           })
+                        }
+                     />
+                  )}
                   {title}
                </h2>
             </div>

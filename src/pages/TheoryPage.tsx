@@ -8,6 +8,7 @@ import { useUser } from "../contexts/UserContext";
 import StatusButton from "../components/StatusButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import EditElement from "../components/EditElement";
 
 function TheoryPage() {
    const modals = useModal();
@@ -26,7 +27,6 @@ function TheoryPage() {
       if (data?.html) {
          setHtml(data.html);
       }
-      console.log("oleg");
    }, [data?.html]);
 
    const changeHTML = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -48,9 +48,26 @@ function TheoryPage() {
    else
       htm = (
          <>
-            <h1 className="max-w-[80ch] mx-auto text-center text-4xl">
-               {data.lessonTitle} ({data.title})
-            </h1>
+            <div className="max-w-[80ch] mx-auto flex justify-center">
+               <h1 className="text-4xl relative text-center">
+                  {isEdit && (
+                     <EditElement
+                        onClick={() =>
+                           modals?.openModal({
+                              subject: "element",
+                              data: {
+                                 element: "theory",
+                                 id,
+                                 title: data.title
+                              },
+                              action: "patch"
+                           })
+                        }
+                     />
+                  )}
+                  {data.lessonTitle}.<br/> {data.title}
+               </h1>
+            </div>
             {isEdit ? (
                <section className="max-w-[80ch] mx-auto">
                   <textarea

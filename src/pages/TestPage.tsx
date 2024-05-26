@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { submitTest } from "../mutations/testMutations";
 import StatusButton from "../components/StatusButton";
+import EditElement from "../components/EditElement";
 
 function TestPage() {
    const modals = useModal();
@@ -48,9 +49,22 @@ function TestPage() {
    else
       htm = (
          <>
-            <h1 className="max-w-[80ch] mx-auto text-center text-4xl">
-               {data.lessonTitle}. {data.title}
-            </h1>
+            <div className="max-w-[80ch] mx-auto flex justify-center">
+               <h1 className="text-4xl relative text-center">
+                  {isEdit && (
+                     <EditElement
+                        onClick={() =>
+                           modals?.openModal({
+                              subject: "element",
+                              data: { element: "test", id, title: data.title },
+                              action: "patch"
+                           })
+                        }
+                     />
+                  )}
+                  {data.lessonTitle}.<br/> {data.title}
+               </h1>
+            </div>
             <div>
                {data.quizes.map((qz) => (
                   <Quiz {...qz} choose={choose} />
@@ -84,7 +98,7 @@ function TestPage() {
                      className="px-4 py-1 rounded-lg bg-amber-400 hover-stone-cs w-1/2"
                      onClick={submit}
                   >
-                     Підтвердити
+                     Отримати результат
                   </button>
                </StatusButton>
             </div>

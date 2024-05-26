@@ -1,9 +1,6 @@
 import { learnCredintialsAPI } from "../config/serverConfig";
 
-
-
-
-// Delete is able to delete test, theory, lesson or quiz (all by id). example:  /delete-quiz/23
+// Delete is able to delete test, theory, lesson or quiz (all by id)
 type deleteElementDataType = {
    element: string;
    id: number;
@@ -11,11 +8,13 @@ type deleteElementDataType = {
 // Delete lesson by id parameter
 const deleteElement = async ({ element, id }: deleteElementDataType) => {
    const response = await learnCredintialsAPI.delete(
-      `/delete-${element}/${id}`,
+      `/delete-${element}/${id}`
    );
    return response;
 };
 //
+
+// /delete-lesson/2
 
 type postElementDataType = {
    element: string;
@@ -23,36 +22,41 @@ type postElementDataType = {
    title: string;
 };
 
-//  children elements - lesson, test, theory, 
-
+//  elements - lesson, test, theory,
 
 // Create lesson
 const postElement = async (data: postElementDataType) => {
-   const response = await learnCredintialsAPI.post(`/post-${data.element}/`, data);
-   return response;
-};
-//
-
-// Patch lesson by id parameter
-type patchLessonType = {
-   id: number;
-   title: string;
-};
-
-const patchLesson = async (patchLessonData: patchLessonType) => {
-   const response = await learnCredintialsAPI.patch(
-      `/patch-lesson/${patchLessonData.id}`,
-      patchLessonData
+   const response = await learnCredintialsAPI.post(
+      `/post-${data.element}`,
+      data
    );
    return response;
 };
 //
 
+// /post-test {parentElement: 2, title: "Mega nigga"}
 
+// Patch element
+type patchElementTitleType = {
+   element: string;
+   id: number;
+   title: string;
+};
+
+const patchElementTitle = async ({
+   element,
+   id,
+   title
+}: patchElementTitleType) => {
+   const response = await learnCredintialsAPI.patch(`/patch-title-${element}/${id}`, {
+      title
+   });
+   return response;
+};
+//
 
 type patchTheoryType = {
    id: number;
-   title?: string;
    html?: string;
 };
 
@@ -66,6 +70,28 @@ const patchTheory = async (patchTheoryData: patchTheoryType) => {
 };
 //
 
-export { deleteElement, patchLesson, patchTheory, postElement };
+type postQuizType = {
+   // testId quiz is bounded to
+   parentTestId: number;
 
-export type { deleteElementDataType, postElementDataType };
+   question: string;
+   optionA: string;
+   optionB: string;
+   optionC: string;
+   points: number;
+
+   // correctOptions: OptionA, OptionB, OptionC
+   correctOption: string;
+};
+
+const postQuiz = async (postQuizData: postQuizType) => {
+   const response = await learnCredintialsAPI.patch(
+      `/post-quiz/`,
+      postQuizData
+   );
+   return response;
+};
+
+export { deleteElement, patchElementTitle, patchTheory, postElement, postQuiz };
+
+export type { deleteElementDataType, postElementDataType, patchElementTitleType };

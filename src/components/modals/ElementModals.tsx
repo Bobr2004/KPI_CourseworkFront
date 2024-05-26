@@ -2,12 +2,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
    deleteElement,
    deleteElementDataType,
+   patchElementTitle,
+   patchElementTitleType,
    postElement
 } from "../../mutations/adminMutations";
 import ModalTemplate from "./ModalTemplate";
 import StatusButton from "../StatusButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import CompactInput from "../CompactInput";
 import { getLessons } from "../../queries/lessonQueries";
@@ -172,4 +174,59 @@ function SelectParent({
    return <>{htm}</>;
 }
 
-export { ElementDeleteSubmit, ElementPostSubmit };
+function ElementPatchSubmit({
+   close,
+   data
+}: {
+   close: () => void;
+   data: patchElementTitleType;
+}) {
+   const [title, setTitle] = useState(data.title);
+   const {
+      isPending,
+      isError,
+      data: res,
+      error,
+      mutate
+   } = useMutation({ mutationFn: patchElementTitle });
+
+   const submit = () => {
+      mutate({ element: data.element, title, id: data.id });
+   };
+   return (
+      <ModalTemplate title={"Змінити назву"}>
+         <div className="flex flex-col mb-4">
+            <CompactInput
+               placeholder="Назва"
+               type="text"
+               val={title}
+               changeVal={(e) => setTitle(e.target.value)}
+            />
+         </div>
+         <div className="flex gap-4 justify-center">
+            <button
+               className="px-4 py-1 rounded-lg bg-stone-100 hover-stone-cs w-1/2"
+               onClick={close}
+            >
+               Відміна
+            </button>
+            <StatusButton
+               isPending={isPending}
+               isError={isError}
+               error={`${error}`}
+               res={res}
+               className="px-4 py-1 w-1/2"
+            >
+               <button
+                  className="px-4 py-1 rounded-lg bg-amber-400 hover-stone-cs w-1/2"
+                  onClick={submit}
+               >
+                  Зберегти <FontAwesomeIcon icon={faPen} />
+               </button>
+            </StatusButton>
+         </div>
+      </ModalTemplate>
+   );
+}
+
+export { ElementDeleteSubmit, ElementPostSubmit, ElementPatchSubmit };
