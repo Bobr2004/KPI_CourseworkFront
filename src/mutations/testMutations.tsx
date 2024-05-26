@@ -21,3 +21,5 @@ const submitTest = async (submitTest: submitTestData) => {
    );
    return response;
 };
+
+export {submitTest};

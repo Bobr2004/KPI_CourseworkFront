@@ -7,6 +7,7 @@ import {
    ElementPostSubmit
 } from "../components/modals/ElementModals";
 import PostElement from "../components/postElement";
+import { QuizPostSubmit } from "../components/modals/QuizModals";
 
 type openModalParams = { subject: string; data?: any; action: string };
 
@@ -82,10 +83,22 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
          }
       }
       if (modal.subject === "theory") {
-         console.log("oleg");
          switch (modal.action) {
             case "patch":
                return <TheoryPatchSubmit close={close} data={modal.data} />;
+            default:
+               return <>pivo</>;
+         }
+      }
+      if (modal.subject === "quiz") {
+         switch (modal.action) {
+            case "post":
+               return (
+                  <QuizPostSubmit
+                     close={close}
+                     parentTestId={modal.data.parentId}
+                  />
+               );
             default:
                return <>pivo</>;
          }
