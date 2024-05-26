@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
    deleteElement,
    deleteElementDataType,
@@ -8,8 +8,10 @@ import ModalTemplate from "./ModalTemplate";
 import StatusButton from "../StatusButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CompactInput from "../CompactInput";
+import { getLessons } from "../../queries/lessonQueries";
+import Spinner from "../Spinner";
 
 function ElementDeleteSubmit({
    close,
@@ -60,7 +62,7 @@ function ElementDeleteSubmit({
 function ElementPostSubmit({ close }: { close: () => void }) {
    const [element, setElement] = useState("lesson");
    const isChildren = element !== "lesson";
-   const [parentId, setParentId] = useState(undefined);
+   const [parentId, setParentId] = useState<number | undefined>(undefined);
    const [title, setTitle] = useState("");
    const {
       isPending,
@@ -75,8 +77,9 @@ function ElementPostSubmit({ close }: { close: () => void }) {
    };
 
    const submit = () => {
-      console.log({ element, parentId, title });
-      mutate({ element, parentId: 23, title });
+      let prntId = parentId || -1;
+      console.log({ element, parentId: prntId, title });
+      mutate({ element, parentId: prntId, title });
    };
    return (
       <ModalTemplate title={"Створення нового елементу"}>
@@ -92,11 +95,7 @@ function ElementPostSubmit({ close }: { close: () => void }) {
                   <option value="theory">Теорія</option>
                </select>
                {isChildren && (
-                  <select className="hover-stone-cs py-1 w-1/2">
-                     <option value="lesson">Основи програмування</option>
-                     <option value="test">Продвинуте програмування</option>
-                     <option value="theory">Олег мега</option>
-                  </select>
+                  <SelectParent value={parentId} setValue={setParentId} />
                )}
             </div>
             <div className="flex flex-col">
@@ -132,6 +131,45 @@ function ElementPostSubmit({ close }: { close: () => void }) {
          </div>
       </ModalTemplate>
    );
+}
+
+function SelectParent({
+   value,
+   setValue
+}: {
+   value: number | undefined;
+   setValue: React.Dispatch<React.SetStateAction<number | undefined>>;
+}) {
+   const { isPending, isError, data, error } = useQuery({
+      queryKey: ["lessons"],
+      queryFn: getLessons
+   });
+   let htm: JSX.Element;
+
+   useEffect(() => {
+      if (data) setValue(data[0].id);
+   }, [data]);
+
+   if (isPending) htm = <Spinner height="4.5rem" />;
+   else if (isError) htm = <div>Error: {error.message}</div>;
+   else
+      htm = (
+         <>
+            <select
+               className="hover-stone-cs py-1 w-1/2"
+               defaultValue={value}
+               onChange={(e) => setValue(Number(e.target.value))}
+            >
+               {data.map((lsn) => (
+                  <option key={lsn.id} value={lsn.id}>
+                     {lsn.title}
+                  </option>
+               ))}
+            </select>
+         </>
+      );
+
+   return <>{htm}</>;
 }
 
 export { ElementDeleteSubmit, ElementPostSubmit };

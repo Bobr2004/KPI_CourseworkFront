@@ -82,6 +82,7 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
          }
       }
       if (modal.subject === "theory") {
+         console.log("oleg");
          switch (modal.action) {
             case "patch":
                return <TheoryPatchSubmit close={close} data={modal.data} />;
