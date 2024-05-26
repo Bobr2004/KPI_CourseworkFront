@@ -54,7 +54,6 @@ type patchTheoryType = {
    id: number;
    title?: string;
    html?: string;
-   author?: string;
 };
 
 // Patch theory

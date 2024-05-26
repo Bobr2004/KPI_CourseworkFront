@@ -2,10 +2,15 @@ import { useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { useQuery } from "@tanstack/react-query";
 import { getTest } from "../queries/lessonQueries";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Quiz } from "../components/Quiz";
+import { useModal } from "../contexts/ModalContext";
+import { useUser } from "../contexts/UserContext";
 
 function TestPage() {
+   const modals = useModal();
+   const currentUser = useUser();
+   const isEdit = useMemo(() => currentUser?.editMode, [currentUser?.editMode]);
    const { id } = useParams();
    const { isPending, isError, data, error } = useQuery({
       queryKey: [`test/${id}`],

@@ -8,7 +8,6 @@ type postTestType = {
 type patchTestType = {
    id: number;
    title?: string;
-   author?: string;
 };
 
 const patchTest = async (patchLessonData: patchTestType) => {
