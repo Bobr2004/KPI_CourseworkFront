@@ -1,34 +1,50 @@
 import { learnCredintialsAPI } from "../config/serverConfig";
 
+type deleteElementDataType = {
+   element: string;
+   id: number;
+};
 // Delete lesson by id parameter
-const deleteLesson = async (id: number) => {
-   const response = await learnCredintialsAPI.delete(`/delete-lesson/${id}`);
+const deleteElement = async ({ element, id }: deleteElementDataType) => {
+   const response = await learnCredintialsAPI.delete(
+      `/delete-${element}/${id}`
+   );
+   return response;
+};
+//
+
+type postElementDataType = {
+   element: string;
+   parentId: number;
+   title: string;
+};
+
+//  children elements - lesson, test, theory
+
+
+// Create lesson
+const postElement = async (data: postElementDataType) => {
+   const response = await learnCredintialsAPI.post(`/post-${data.element}/`, data);
    return response;
 };
 //
 
 // Patch lesson by id parameter
 type patchLessonType = {
+   id: number;
    title: string;
 };
 
-const patchLesson = async (id: number, patchLessonData: patchLessonType) => {
+const patchLesson = async (patchLessonData: patchLessonType) => {
    const response = await learnCredintialsAPI.patch(
-      `/delete-lesson/${id}`,
+      `/patch-lesson/${patchLessonData.id}`,
       patchLessonData
    );
    return response;
 };
 //
 
-// Delete theory by id parameter
-const deleteTheory = async (id: number, patchTheoryData: patchTheoryType) => {
-   const response = await learnCredintialsAPI.delete(
-      `/delete-theory/${id}`
-   );
-   return response;
-};
-//
+
 
 type patchTheoryType = {
    id: number;
@@ -47,16 +63,6 @@ const patchTheory = async (patchTheoryData: patchTheoryType) => {
 };
 //
 
-// Post theory
-const postTheory = async (patchTheoryData: patchTheoryType) => {
-   const response = await learnCredintialsAPI.patch(
-      `/post-theory/`,
-      patchTheoryData
-   );
-   return response;
-};
-// 
+export { deleteElement, patchLesson, patchTheory, postElement };
 
-
-
-export { deleteLesson, patchLesson, deleteTheory, patchTheory, postTheory };
+export type { deleteElementDataType, postElementDataType };

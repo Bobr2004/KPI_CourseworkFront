@@ -1,8 +1,12 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 import { DeleteSubmit, ExitSubmit } from "../components/modals/UserModals";
 import Overlay from "../components/modals/Overlay";
-import LessonDeleteSubmit from "../components/modals/LessonModals";
 import { TheoryPatchSubmit } from "../components/modals/TheoryModals";
+import {
+   ElementDeleteSubmit,
+   ElementPostSubmit
+} from "../components/modals/ElementModals";
+import PostElement from "../components/postElement";
 
 type openModalParams = { subject: string; data?: any; action: string };
 
@@ -27,12 +31,11 @@ const ModalContext = createContext<ModalContextProps | null | undefined>(null);
 function ModalContextProvider({ children }: { children: ReactNode }) {
    const [modal, setModal] = useState<ModalProps>({
       subject: "",
-      data: -1,
       action: ""
    });
 
    const close = () => {
-      setModal({ subject: "", data: -1, action: "" });
+      setModal({ subject: "", action: "" });
    };
 
    const openModal = ({ subject, data, action }: openModalParams) => {
@@ -50,16 +53,28 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
                return <>pivo</>;
          }
       }
-      if (modal.subject === "lesson") {
+      if (modal.subject === "element") {
          switch (modal.action) {
             case "delete":
                return (
                   <>
-                     {modal.data.id && (
-                        <LessonDeleteSubmit close={close} id={modal.data.id} />
+                     {modal.data && (
+                        <ElementDeleteSubmit close={close} data={modal.data} />
                      )}
                   </>
                );
+            case "post":
+               return (
+                  <>
+                     <ElementPostSubmit close={close} />
+                  </>
+               );
+            default:
+               <>pivo</>;
+         }
+      }
+      if (modal.subject === "lesson") {
+         switch (modal.action) {
             case "patch":
                return <ExitSubmit close={close} />;
             default:
@@ -68,16 +83,8 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
       }
       if (modal.subject === "theory") {
          switch (modal.action) {
-            case "delete":
-               return (
-                  <>
-                     {modal.data.id && (
-                        <LessonDeleteSubmit close={close} id={modal.data.id} />
-                     )}
-                  </>
-               );
             case "patch":
-               return <TheoryPatchSubmit close={close} data={modal.data}/>;
+               return <TheoryPatchSubmit close={close} data={modal.data} />;
             default:
                return <>pivo</>;
          }

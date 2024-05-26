@@ -26,12 +26,11 @@ function TheoryPage() {
       if (data?.html) {
          setHtml(data.html);
       }
+      console.log("oleg");
    }, [data?.html]);
 
    const changeHTML = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setHtml(`${e.target.value}`);
-      console.log(html);
-      console.log("1");
    };
 
    useEffect(() => {
@@ -58,9 +57,8 @@ function TheoryPage() {
                      className=" w-full mt-8 hover-stone-cs p-4 block"
                      onChange={changeHTML}
                      rows={50}
-                  >
-                     {html}
-                  </textarea>
+                     value={html}
+                  ></textarea>
                </section>
             ) : (
                <div
@@ -75,7 +73,7 @@ function TheoryPage() {
                      onClick={() =>
                         modals?.openModal({
                            subject: "theory",
-                           data: {html},
+                           data: { html, id },
                            action: "patch"
                         })
                      }
