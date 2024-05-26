@@ -17,19 +17,19 @@ function Quiz({
          <div className="flex justify-between gap-2"><h3>{question}</h3> <p>{points}</p></div>
          <div>
             <label className="flex gap-2">
-               <input type="radio" name={`${id}`} value="A" onChange={handleChoose}/>
+               <input type="radio" name={`${id}`} value="OptionA" onChange={handleChoose}/>
                <span>{optionA}</span>
             </label>
          </div>
          <div>
             <label className="flex gap-2">
-               <input type="radio" name={`${id}`} value="B" onChange={handleChoose}/>
+               <input type="radio" name={`${id}`} value="OptionB" onChange={handleChoose}/>
                <span>{optionB}</span>
             </label>
          </div>
          <div>
             <label className="flex gap-2">
-               <input type="radio" name={`${id}`} value="C" onChange={handleChoose}/>
+               <input type="radio" name={`${id}`} value="OptionC" onChange={handleChoose}/>
                <span>{optionC}</span>
             </label>
          </div>

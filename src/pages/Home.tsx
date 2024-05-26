@@ -10,7 +10,6 @@ function Home() {
    const currentUser = useUser();
    const isEdit = useMemo(() => currentUser?.editMode, [currentUser?.editMode]);
 
-
    const { isPending, isError, data, error } = useQuery({
       queryKey: [`lessons`],
       queryFn: getLessons
@@ -23,8 +22,8 @@ function Home() {
    else
       htm = (
          <>
-            {data.map((lsn) => (
-               <Lesson id={lsn.id} num={lsn.num} title={lsn.title} key={lsn.id}/>
+            {data.map((lsn, i) => (
+               <Lesson id={lsn.id} num={i + 1} title={lsn.title} key={lsn.id} />
             ))}
          </>
       );
@@ -35,7 +34,7 @@ function Home() {
          <div className="max-w-[80ch] mx-auto mt-8 flex flex-col gap-4 items-center">
             {htm}
          </div>
-         {isEdit && <PostElement/>}
+         {isEdit && <PostElement />}
       </div>
    );
 }

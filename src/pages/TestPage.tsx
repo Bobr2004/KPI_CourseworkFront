@@ -32,7 +32,11 @@ function TestPage() {
             <h1 className="max-w-[80ch] mx-auto text-center text-4xl">
                {data.lessonTitle}. {data.title}
             </h1>
-            <div>{data.quizes.map(qz=><Quiz {...qz} choose={choose}/>)}</div>
+            <div>
+               {data.quizes.map((qz) => (
+                  <Quiz {...qz} choose={choose} />
+               ))}
+            </div>
             <div>{JSON.stringify(choice)}</div>
             <h5 className="max-w-[80ch] mx-auto text-end mt-2">
                <em>Автор: {data.author}</em>
@@ -41,7 +45,5 @@ function TestPage() {
       );
    return <div className="container mx-auto p-4 md:mt-8">{htm}</div>;
 }
-
-
 
 export default TestPage;

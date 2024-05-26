@@ -1,5 +1,9 @@
 import { learnCredintialsAPI } from "../config/serverConfig";
 
+
+
+
+// Delete is able to delete test, theory, lesson or quiz (all by id). example:  /delete-quiz/23
 type deleteElementDataType = {
    element: string;
    id: number;
@@ -19,7 +23,7 @@ type postElementDataType = {
    title: string;
 };
 
-//  children elements - lesson, test, theory
+//  children elements - lesson, test, theory, 
 
 
 // Create lesson
