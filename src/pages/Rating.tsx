@@ -5,9 +5,7 @@ import Spinner from "../components/Spinner";
 import AccountRating from "../components/accountComponents/AccountRating";
 
 function Rating() {
-   const [searchParams, setSearchParams] = useSearchParams({
-      sort: "score"
-   });
+   const [searchParams, setSearchParams] = useSearchParams();
 
    const { isPending, isError, data, error } = useQuery({
       queryKey: [`rating`],
@@ -16,22 +14,43 @@ function Rating() {
 
    let htm: JSX.Element;
 
-   if (isPending) htm = <div className="flex justify-center"><Spinner height="4.5rem" /></div>;
+   if (isPending)
+      htm = (
+         <div className="flex justify-center">
+            <Spinner height="4.5rem" />
+         </div>
+      );
    else if (isError) htm = <div>Error: {error.message}</div>;
    else
       htm = (
          <>
-         oleg  
-            {/* {data && data.map((acc,i) => (
-               <AccountRating key={i} seq={i}{...acc} />
-            ))} */}
+            <div className="flex gap-2 justify-end items-center">
+               <span>Сортування </span>
+               <select
+                  className="hover-stone-cs py-1 px-2"
+                  defaultValue={searchParams.get("sort") || "score"}
+                  onChange={(e) => {
+                     setSearchParams({
+                        sort: e.target.value
+                     });
+                  }}
+               >
+                  <option value="score">Балл</option>
+                  <option value="performance">Встигаємість</option>
+               </select>
+            </div>
+            {data &&
+               data.map((acc, i) => <AccountRating key={i} seq={i} {...acc} />)}
+            {/* data.map((acc, i) => <div>{JSON.stringify(acc)}</div>)} */}
          </>
       );
 
    return (
       <div className="container mx-auto p-4 md:mt-8">
          <h1 className="max-w-[80ch] mx-auto text-center text-4xl">Рейтинг</h1>
-         <div className="max-w-[80ch] mx-auto mt-8">{htm}</div>
+         <div className="max-w-[80ch] mx-auto mt-8 flex flex-col gap-4">
+            {htm}
+         </div>
       </div>
    );
 }
