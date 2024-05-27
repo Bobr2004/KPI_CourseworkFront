@@ -86,8 +86,9 @@ function ElementPostSubmit({ close }: { close: () => void }) {
    } = useMutation({
       mutationFn: postElement,
       onSuccess: () => {
+         console.log(element);
          if (element === "lesson")
-            quetyClient.invalidateQueries({ queryKey: [`${element}`] });
+            quetyClient.invalidateQueries({ queryKey: [`lessons`] });
          else
             quetyClient.invalidateQueries({ queryKey: [`lesson/${parentId}`] });
          wait().then(close);
@@ -117,7 +118,7 @@ function ElementPostSubmit({ close }: { close: () => void }) {
                   className="hover-stone-cs py-1 w-1/2"
                   onChange={(e) => setElement(e.target.value)}
                >
-                  <option value="lesson">Урок</option>
+                  <option value="lesson">Тема</option>
                   <option value="test">Тест</option>
                   <option value="theory">Теорія</option>
                </select>

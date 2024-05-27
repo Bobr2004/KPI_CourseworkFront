@@ -42,7 +42,7 @@ type patchElementTitleType = {
    id: number;
    title: string;
 };
-
+// elements lesson, theory, test
 const patchElementTitle = async ({
    element,
    id,
@@ -67,7 +67,7 @@ type patchTheoryType = {
 const patchTheory = async (patchTheoryData: patchTheoryType) => {
    const response = await learnCredintialsAPI.patch(
       `/patch-theory/${patchTheoryData.id}`,
-      { html: patchTheoryData }
+      { html: patchTheoryData.html }
    );
    return response;
 };

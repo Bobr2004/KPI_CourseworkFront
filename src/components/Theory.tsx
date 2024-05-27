@@ -11,7 +11,7 @@ function Theory({ id, title }: TheoryProps) {
    const currentUser = useUser();
    const isEdit = useMemo(() => currentUser?.editMode, [currentUser?.editMode]);
    return (
-      <article className="relative">
+      <article className="relative ">
          {isEdit && <DeleteElement
                onClick={() =>
                   modals?.openModal({
@@ -23,7 +23,7 @@ function Theory({ id, title }: TheoryProps) {
             />}
          <NavLink
             to={routes.toTheory(id)}
-            className="block bg-stone-100 rounded-lg p-2 hover-stone-cs "
+            className="block bg-stone-100 rounded-lg p-2 hover-stone-cs ease-test"
          >
             <h3>{title}</h3>
          </NavLink>

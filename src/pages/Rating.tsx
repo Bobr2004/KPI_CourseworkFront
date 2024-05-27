@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { getRating } from "../queries/userQueries";
 import Spinner from "../components/Spinner";
 import AccountRating from "../components/accountComponents/AccountRating";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 function Rating() {
    const [searchParams, setSearchParams] = useSearchParams();

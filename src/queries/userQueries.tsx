@@ -35,8 +35,7 @@ const getRating = (sort: string | null) => async () => {
       `/rating`,
       {
          params: {
-            sort,
-            diman: "hello-nigga"
+            sort
          }
       }
    );
