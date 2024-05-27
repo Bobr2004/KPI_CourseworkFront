@@ -1,0 +1,31 @@
+RECEIVE
+
+####
+USER
+/create-user, /patch-user, /login-user
+{
+   id: 43
+}
+####
+
+
+POST ELEMENT
+{}
+
+
+PATCH ELEMENT TITLE
+{}
+
+
+#####
+DELETE ELEMENT
+/delete-lesson/21
+{
+   invalidate : "lessons"
+}
+
+/delete-quiz/13
+{
+   invalidate : "test/3"
+}
+####

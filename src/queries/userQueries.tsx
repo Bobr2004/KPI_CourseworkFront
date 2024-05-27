@@ -6,6 +6,7 @@ type UserContextProps = {
    role: string;
    firstName: string;
    lastName: string;
+   testList: AccountTestProps[];
 };
 
 const currentUser = async () => {
@@ -46,6 +47,7 @@ type AccountProps = {
    firstName: string;
    lastName: string;
    score: number;
+   performance: number;
    testList: AccountTestProps[];
 };
 

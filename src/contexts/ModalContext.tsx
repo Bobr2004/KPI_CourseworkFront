@@ -102,10 +102,11 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
       if (modal.subject === "quiz") {
          switch (modal.action) {
             case "post":
+               console.log(JSON.stringify(modal));
                return (
                   <QuizPostSubmit
                      close={close}
-                     parentTestId={modal.data.parentId}
+                     parentTestId={modal.data.parentTestId}
                   />
                );
             default:

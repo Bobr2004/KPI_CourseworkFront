@@ -11,10 +11,10 @@ function AccountTest({ id, title, points, receivedPoints }: AccountTestProps) {
       <article>
          <NavLink
             to={routes.toTest(id)}
-            className={`flex gap-4 justify-between bg-stone-300 p-2 hover-stone-cs hover-${testStatus}-bg-cs`}
+            className={`flex gap-4 justify-between bg-stone-100 p-2 hover-stone-cs`}
          >
             <h3>{title}</h3>
-            <span>
+            <span className={(receivedPoints * 100 / points) >= 60 ? "text-green-500" : "text-red-500"}>
                {receivedPoints}/{points}
             </span>
          </NavLink>

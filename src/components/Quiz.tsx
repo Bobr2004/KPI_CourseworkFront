@@ -3,6 +3,7 @@ import { useModal } from "../contexts/ModalContext";
 import { useUser } from "../contexts/UserContext";
 import { QuizProps } from "../queries/lessonQueries";
 import DeleteElement from "./DeleteElement";
+import { properPointsWord } from "../helpers/helpers";
 
 function Quiz({
    id,
@@ -33,9 +34,9 @@ function Quiz({
                }
             />
          )}
-         <div className="bg-stone-200 hover-stone-cs">
-            <div className="flex justify-between gap-2">
-               <h3>{question}</h3> <p>{points}</p>
+         <div className="bg-stone-100 hover-stone-cs p-4">
+            <div className="flex justify-between gap-2 ">
+               <h3>{question}</h3> <p>{points} {properPointsWord(points)}</p>
             </div>
             <div>
                <label className="flex gap-2">

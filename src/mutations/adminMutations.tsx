@@ -5,12 +5,12 @@ type deleteElementDataType = {
    element: string;
    id: number;
 };
+
 // Delete lesson by id parameter
 const deleteElement = async ({ element, id }: deleteElementDataType) => {
-   const response = await learnCredintialsAPI.delete(
-      `/delete-${element}/${id}`
-   );
-   return response;
+   const { invalidate }: { invalidate: string } =
+      await learnCredintialsAPI.delete(`/delete-${element}/${id}`);
+   return invalidate;
 };
 //
 
@@ -26,10 +26,10 @@ type postElementDataType = {
 
 // Create lesson
 const postElement = async (data: postElementDataType) => {
-   const response = await learnCredintialsAPI.post(
-      `/post-${data.element}`,
-      data
-   );
+   const response = await learnCredintialsAPI.post(`/post-${data.element}`, {
+      title: data.title,
+      parentId: data.parentId
+   });
    return response;
 };
 //
@@ -48,9 +48,12 @@ const patchElementTitle = async ({
    id,
    title
 }: patchElementTitleType) => {
-   const response = await learnCredintialsAPI.patch(`/patch-title-${element}/${id}`, {
-      title
-   });
+   const response = await learnCredintialsAPI.patch(
+      `/patch-title-${element}/${id}`,
+      {
+         title
+      }
+   );
    return response;
 };
 //
@@ -85,13 +88,14 @@ type postQuizType = {
 };
 
 const postQuiz = async (postQuizData: postQuizType) => {
-   const response = await learnCredintialsAPI.patch(
-      `/post-quiz/`,
-      postQuizData
-   );
+   const response = await learnCredintialsAPI.post(`/post-quiz`, postQuizData);
    return response;
 };
 
 export { deleteElement, patchElementTitle, patchTheory, postElement, postQuiz };
 
-export type { deleteElementDataType, postElementDataType, patchElementTitleType };
+export type {
+   deleteElementDataType,
+   postElementDataType,
+   patchElementTitleType
+};

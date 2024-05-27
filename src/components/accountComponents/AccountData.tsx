@@ -8,8 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AccountChange from "./AccountChange";
 import { useUser } from "../../contexts/UserContext";
 import { ChnageNameSpecialGui } from "./ChangeName";
-import AccountDelete from "./AccountDelete";
-import AccountLeave from "./AccountLeave";
 
 type AccountDataProps = {
    id: number;
@@ -18,6 +16,7 @@ type AccountDataProps = {
    firstName: string;
    lastName: string;
    score: number;
+   performance: number;
 };
 
 function AccountData({
@@ -26,7 +25,8 @@ function AccountData({
    role,
    firstName,
    lastName,
-   score
+   score,
+   performance
 }: AccountDataProps) {
    let roleIcon: IconDefinition;
    let roleName: "студент" | "адмін" | "роль не знайдено";
@@ -68,6 +68,16 @@ function AccountData({
                </h3>
                <p>
                   Загальний бал: <b>{score}</b>
+               </p>
+               <p>
+                  Середня встигаємість:{" "}
+                  <b
+                     className={
+                        performance >= 60 ? " text-green-500" : "text-red-500"
+                     }
+                  >
+                     {performance}%
+                  </b>
                </p>
             </div>
             {isCurrentUser && <AccountChange id={id} email={email} />}

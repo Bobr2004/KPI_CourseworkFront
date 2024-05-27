@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
    deleteElement,
    deleteElementDataType,
@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import CompactInput from "../CompactInput";
 import { getLessons } from "../../queries/lessonQueries";
 import Spinner from "../Spinner";
+import { ValidationError } from "../ValidationError";
+import { wait } from "../../helpers/helpers";
 
 function ElementDeleteSubmit({
    close,
@@ -22,13 +24,20 @@ function ElementDeleteSubmit({
    close: () => void;
    data: deleteElementDataType;
 }) {
+   const quetyClient = useQueryClient();
    const {
       isPending,
       isError,
       data: res,
       error,
       mutate
-   } = useMutation({ mutationFn: deleteElement });
+   } = useMutation({
+      mutationFn: deleteElement,
+      onSuccess: (invalidate) => {
+         quetyClient.invalidateQueries({ queryKey: [`${invalidate}`] });
+         wait().then(close);
+      }
+   });
 
    const submit = () => {
       mutate(data);
@@ -66,26 +75,42 @@ function ElementPostSubmit({ close }: { close: () => void }) {
    const isChildren = element !== "lesson";
    const [parentId, setParentId] = useState<number | undefined>(undefined);
    const [title, setTitle] = useState("");
+   const quetyClient = useQueryClient();
+   const [validaionErorr, setValidaionErorr] = useState("");
    const {
       isPending,
       isError,
       data: res,
       error,
       mutate
-   } = useMutation({ mutationFn: postElement });
+   } = useMutation({
+      mutationFn: postElement,
+      onSuccess: () => {
+         if (element === "lesson")
+            quetyClient.invalidateQueries({ queryKey: [`${element}`] });
+         else
+            quetyClient.invalidateQueries({ queryKey: [`lesson/${parentId}`] });
+         wait().then(close);
+      }
+   });
 
    const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(e.target.value);
    };
 
    const submit = () => {
+      if (!title) {
+         setValidaionErorr("Поле не може бути пустим");
+         return;
+      }
+      setValidaionErorr("");
       let prntId = parentId || -1;
       console.log({ element, parentId: prntId, title });
       mutate({ element, parentId: prntId, title });
    };
    return (
       <ModalTemplate title={"Створення нового елементу"}>
-         <div className="mb-4 flex flex-col gap-2">
+         <div className="mb-2 flex flex-col gap-2">
             <div className="flex gap-2">
                <select
                   defaultValue={element}
@@ -108,6 +133,9 @@ function ElementPostSubmit({ close }: { close: () => void }) {
                   changeVal={changeTitle}
                />
             </div>
+            {validaionErorr && (
+               <ValidationError text={validaionErorr} className="text-sm" />
+            )}
          </div>
          <div className="flex gap-4 justify-center">
             <button
@@ -181,21 +209,37 @@ function ElementPatchSubmit({
    close: () => void;
    data: patchElementTitleType;
 }) {
+   const quetyClient = useQueryClient();
    const [title, setTitle] = useState(data.title);
+   const [validaionErorr, setValidaionErorr] = useState("");
    const {
       isPending,
       isError,
       data: res,
       error,
       mutate
-   } = useMutation({ mutationFn: patchElementTitle });
+   } = useMutation({
+      mutationFn: patchElementTitle,
+      onSuccess: () => {
+         const { element, id } = data;
+         if (element === "lesson")
+            quetyClient.invalidateQueries({ queryKey: [`${element}`] });
+         else quetyClient.invalidateQueries({ queryKey: [`${element}/${id}`] });
+         wait().then(close);
+      }
+   });
 
    const submit = () => {
+      if (!title) {
+         setValidaionErorr("Поле не може бути пустим");
+         return;
+      }
+      setValidaionErorr("");
       mutate({ element: data.element, title, id: data.id });
    };
    return (
       <ModalTemplate title={"Змінити назву"}>
-         <div className="flex flex-col mb-4">
+         <div className="flex flex-col mb-2">
             <CompactInput
                placeholder="Назва"
                type="text"
@@ -203,7 +247,10 @@ function ElementPatchSubmit({
                changeVal={(e) => setTitle(e.target.value)}
             />
          </div>
-         <div className="flex gap-4 justify-center">
+         {validaionErorr && (
+            <ValidationError text={validaionErorr} className="text-sm" />
+         )}
+         <div className="flex gap-4 justify-center mt-2">
             <button
                className="px-4 py-1 rounded-lg bg-stone-100 hover-stone-cs w-1/2"
                onClick={close}

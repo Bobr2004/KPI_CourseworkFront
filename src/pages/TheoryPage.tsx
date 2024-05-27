@@ -49,23 +49,28 @@ function TheoryPage() {
       htm = (
          <>
             <div className="max-w-[80ch] mx-auto flex justify-center">
-               <h1 className="text-4xl relative text-center">
-                  {isEdit && (
-                     <EditElement
-                        onClick={() =>
-                           modals?.openModal({
-                              subject: "element",
-                              data: {
-                                 element: "theory",
-                                 id,
-                                 title: data.title
-                              },
-                              action: "patch"
-                           })
-                        }
-                     />
-                  )}
-                  {data.lessonTitle}.<br/> {data.title}
+               <h1 className=" flex flex-col gap-1 items-center">
+                  <span className="text-stone-500 font-bold text-3xl">
+                     {data.lessonTitle}
+                  </span>
+                  <span className=" font-bold relative text-4xl">
+                     {isEdit && (
+                        <EditElement
+                           onClick={() =>
+                              modals?.openModal({
+                                 subject: "element",
+                                 data: {
+                                    element: "theory",
+                                    id,
+                                    title: data.title
+                                 },
+                                 action: "patch"
+                              })
+                           }
+                        />
+                     )}
+                     {data.title}
+                  </span>
                </h1>
             </div>
             {isEdit ? (

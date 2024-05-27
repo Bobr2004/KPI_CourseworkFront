@@ -11,6 +11,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { submitTest } from "../mutations/testMutations";
 import StatusButton from "../components/StatusButton";
 import EditElement from "../components/EditElement";
+import { ValidationError } from "../components/ValidationError";
 
 function TestPage() {
    const modals = useModal();
@@ -27,6 +28,9 @@ function TestPage() {
       onSuccess: () => {}
    });
 
+   // Error messge
+   const [validaionErorr, setValidationError] = useState("");
+
    const [choice, setChoice] = useState({});
 
    const choose = (id: number, value: string) => {
@@ -35,6 +39,11 @@ function TestPage() {
 
    const submit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
+      if (data?.quizes && Object.entries(choice).length < data?.quizes.length) {
+         setValidationError("Ви не відповіли на всі питання!");
+         return;
+      }
+      setValidationError("");
       mutation.mutate(choice);
    };
 
@@ -50,57 +59,74 @@ function TestPage() {
       htm = (
          <>
             <div className="max-w-[80ch] mx-auto flex justify-center">
-               <h1 className="text-4xl relative text-center">
-                  {isEdit && (
-                     <EditElement
-                        onClick={() =>
-                           modals?.openModal({
-                              subject: "element",
-                              data: { element: "test", id, title: data.title },
-                              action: "patch"
-                           })
-                        }
-                     />
-                  )}
-                  {data.lessonTitle}.<br/> {data.title}
+               <h1 className=" flex flex-col gap-1 items-center">
+                  <span className="text-stone-500 font-bold text-3xl">
+                     {data.lessonTitle}
+                  </span>
+                  <span className=" font-bold relative text-4xl">
+                     {isEdit && (
+                        <EditElement
+                           onClick={() =>
+                              modals?.openModal({
+                                 subject: "element",
+                                 data: {
+                                    element: "test",
+                                    id,
+                                    title: data.title
+                                 },
+                                 action: "patch"
+                              })
+                           }
+                        />
+                     )}
+                     {data.title}
+                  </span>
                </h1>
             </div>
-            <div>
-               {data.quizes.map((qz) => (
-                  <Quiz {...qz} choose={choose} />
+            <div className="flex flex-col gap-2 mt-4">
+               {data.quizes.map((qz, i) => (
+                  <Quiz key={i} {...qz} choose={choose} />
                ))}
             </div>
-            {isEdit && (
-               <button
-                  className="hover-stone-cs py-1 px-2"
-                  onClick={() =>
-                     modals?.openModal({
-                        subject: "quiz",
-                        data: { element: "quiz", parentTestId: id },
-                        action: "post"
-                     })
-                  }
-               >
-                  Додати питання <FontAwesomeIcon icon={faPlus} />
-               </button>
+
+            {/* <div>{JSON.stringify(choice)}</div> */}
+            {validaionErorr && (
+               <ValidationError
+                  text={validaionErorr}
+                  className="text-sm mt-2"
+               />
             )}
-            <div>{JSON.stringify(choice)}</div>
-            <div>
-               {" "}
-               <StatusButton
-                  isPending={mutation.isPending}
-                  isError={mutation.isError}
-                  error={`${mutation.error}`}
-                  res={mutation.data}
-                  className="px-4 py-1 w-1/2"
-               >
+            <div className="flex justify-center mt-4">
+               {isEdit && (
                   <button
-                     className="px-4 py-1 rounded-lg bg-amber-400 hover-stone-cs w-1/2"
-                     onClick={submit}
+                     className="hover-stone-cs px-4 py-1"
+                     onClick={() =>
+                        modals?.openModal({
+                           subject: "quiz",
+                           data: { element: "quiz", parentTestId: id },
+                           action: "post"
+                        })
+                     }
                   >
-                     Отримати результат
+                     Додати питання <FontAwesomeIcon icon={faPlus} />
                   </button>
-               </StatusButton>
+               )}
+               {!isEdit && (
+                  <StatusButton
+                     isPending={mutation.isPending}
+                     isError={mutation.isError}
+                     error={`${mutation.error}`}
+                     res={mutation.data}
+                     className="px-4 py-1 w-1/2"
+                  >
+                     <button
+                        className="px-4 py-1  bg-amber-400 hover-stone-cs"
+                        onClick={submit}
+                     >
+                        Отримати результат
+                     </button>
+                  </StatusButton>
+               )}
             </div>
             <h5 className="max-w-[80ch] mx-auto text-end mt-2">
                <em>Автор: {data.author}</em>
