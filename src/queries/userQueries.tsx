@@ -30,11 +30,16 @@ type AccountRatingProps = {
 type sortType = "performance" | "score";
 
 const getRating = (sort: string | null) => async () => {
-   const { data }: { data: RatingProps } = await learnAPI.get(`/rating`, {
-      params: {
-         sort
+   sort ||= "score";
+   const { data }: { data: RatingProps } = await learnAPI.get(
+      `/rating`,
+      {
+         params: {
+            sort,
+            diman: "hello-nigga"
+         }
       }
-   });
+   );
    return data;
 };
 //

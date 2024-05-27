@@ -1,16 +1,23 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { getRating } from "../queries/userQueries";
 import Spinner from "../components/Spinner";
 import AccountRating from "../components/accountComponents/AccountRating";
+import { useEffect, useState } from "react";
 
 function Rating() {
    const [searchParams, setSearchParams] = useSearchParams();
+   const queryClient = useQueryClient();
 
    const { isPending, isError, data, error } = useQuery({
       queryKey: [`rating`],
       queryFn: getRating(searchParams.get("sort"))
    });
+
+   useEffect(() => {
+      console.log("oleg");
+      queryClient.invalidateQueries({ queryKey: ["rating"] });
+   }, [searchParams]);
 
    let htm: JSX.Element;
 
@@ -40,8 +47,9 @@ function Rating() {
                </select>
             </div>
             {data &&
-               data.map((acc, i) => <AccountRating key={i} seq={i} {...acc} />)}
-            {/* data.map((acc, i) => <div>{JSON.stringify(acc)}</div>)} */}
+               data.map((acc, i) => (
+                  <AccountRating key={acc.id} seq={i + 1} {...acc} />
+               ))}
          </>
       );
 
