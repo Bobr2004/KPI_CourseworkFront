@@ -1,21 +1,30 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import StatusButton from "../StatusButton";
 import ModalTemplate from "./ModalTemplate";
 import { patchTheory } from "../../mutations/adminMutations";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { wait } from "../../helpers/helpers";
 
 function TheoryPatchSubmit({ close, data }: { close: () => void; data: any }) {
+   const queryClient = useQueryClient();
    const {
       isPending,
       isError,
       data: res,
       error,
       mutate
-   } = useMutation({ mutationFn: patchTheory });
+   } = useMutation({
+      mutationFn: patchTheory,
+      onSuccess: () => {
+         const { id } = data.data.id;
+         queryClient.invalidateQueries({ queryKey: [`theory/${id}`] });
+         wait().then(close);
+      }
+   });
 
    const submit = () => {
-      mutate(data);
+      mutate({ id: data.data.id, html: data.data.html });
    };
    return (
       <ModalTemplate title={"Зберегти зміни теорії "}>

@@ -67,7 +67,7 @@ type patchTheoryType = {
 const patchTheory = async (patchTheoryData: patchTheoryType) => {
    const response = await learnCredintialsAPI.patch(
       `/patch-theory/${patchTheoryData.id}`,
-      patchTheoryData
+      { html: patchTheoryData }
    );
    return response;
 };
