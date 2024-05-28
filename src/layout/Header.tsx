@@ -28,22 +28,26 @@ function Header() {
    else
       htm = (
          <div className="flex gap-4">
-            {isAdmin && isEdit ? (
-               <button
-                  className="hover-stone-cs px-2"
-                  onClick={currentUser.exitEditMode}
-                  title="Режим перегляду"
-               >
-                  <FontAwesomeIcon icon={faEye} />
-               </button>
-            ) : (
-               <button
-                  className="hover-stone-cs px-2"
-                  onClick={currentUser.enterEditMode}
-                  title="Режим редаугвання"
-               >
-                  <FontAwesomeIcon icon={faGear} />
-               </button>
+            {isAdmin && (
+               <>
+                  {isEdit ? (
+                     <button
+                        className="hover-stone-cs px-2"
+                        onClick={currentUser.exitEditMode}
+                        title="Режим перегляду"
+                     >
+                        <FontAwesomeIcon icon={faEye} />
+                     </button>
+                  ) : (
+                     <button
+                        className="hover-stone-cs px-2"
+                        onClick={currentUser.enterEditMode}
+                        title="Режим редаугвання"
+                     >
+                        <FontAwesomeIcon icon={faGear} />
+                     </button>
+                  )}
+               </>
             )}
             <NavLink to={routes.toAccount(currentUser.id)}>
                {currentUser.firstName} <FontAwesomeIcon icon={faUser} />

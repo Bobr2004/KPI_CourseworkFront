@@ -119,7 +119,7 @@ function DeleteSubmit({ close }: { close: () => void }) {
          <div className="flex flex-col mb-4 gap-2">
             <p>
                Для підтвердження видалення введіть наступне кодове слово:{" "}
-               <em className="font-bold ">{word}</em>
+               <em className="font-bold" style={{userSelect: "none"}}>{word}</em>
             </p>
             <CompactInput
                type="text"

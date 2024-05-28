@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../config/routes";
 import { TestProps } from "../queries/lessonQueries";
 import {
@@ -12,12 +12,24 @@ import DeleteElement from "./DeleteElement";
 import { useModal } from "../contexts/ModalContext";
 
 function Test({ id, title, questionsAmount, points }: TestProps) {
-   const  modals = useModal();
+   const redirect = useNavigate();
+   const modals = useModal();
    const currentUser = useUser();
+   
+
+   const onClick = () => {
+      if (currentUser?.testList.find((el) => el.id === id)) {
+         modals?.openModal({
+            subject: "test",
+            data: { testId: id },
+            action: "passed"
+         });
+         return;
+      } else redirect(routes.toTest(id));
+   };
+
    const isEdit = useMemo(() => currentUser?.editMode, [currentUser?.editMode]);
-   let testLevel: "ease" | "mid" | "hard" = "ease";
-   if (questionsAmount > 5) testLevel = "mid";
-   if (questionsAmount > 15) testLevel = "hard";
+
    return (
       <article className="relative">
          {isEdit && (
@@ -31,9 +43,9 @@ function Test({ id, title, questionsAmount, points }: TestProps) {
                }
             />
          )}
-         <NavLink
-            to={routes.toTest(id)}
-            className={`flex flex-col items-stretch hard-test gap-1 p-2 hover-stone-cs`}
+         <button
+            onClick={onClick}
+            className={`flex flex-col items-stretch hard-test gap-1 p-2 hover-stone-cs w-full`}
          >
             <h3 className="text-center">{title}</h3>
             <div className="divider-cs"></div>
@@ -46,7 +58,7 @@ function Test({ id, title, questionsAmount, points }: TestProps) {
                   {points} {properPointsWord(coreDigit(points))}
                </p>
             </div>
-         </NavLink>
+         </button>
       </article>
    );
 }

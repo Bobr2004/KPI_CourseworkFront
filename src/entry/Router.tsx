@@ -27,6 +27,7 @@ function Router() {
 
                   <Route path={routes.theory} element={<TheoryPage />} />
                   <Route path={routes.test} element={<TestPage />} />
+                  <Route path="*" element={<h1 className="text-4xl text-center mt-4">404 Not found</h1>}/>
                </Route>
             </Routes>
          </ModalContextProvider>

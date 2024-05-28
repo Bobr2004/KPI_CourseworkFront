@@ -9,6 +9,7 @@ import {
 } from "../components/modals/ElementModals";
 import { QuizPostSubmit } from "../components/modals/QuizModals";
 import ErrorModal from "../components/modals/ErrorModal";
+import TestPassedModal from "../components/modals/TestPassedModal";
 
 type openModalParams = { subject: string; data?: any; action: string };
 
@@ -87,6 +88,14 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
          switch (modal.action) {
             case "patch":
                return <ExitSubmit close={close} />;
+            default:
+               return <ErrorModal close={close} />;
+         }
+      }
+      if (modal.subject === "test") {
+         switch (modal.action) {
+            case "passed":
+               return <TestPassedModal close={close} testId={modal.data.testId} />;
             default:
                return <ErrorModal close={close} />;
          }
