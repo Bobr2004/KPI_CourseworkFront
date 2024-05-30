@@ -92,13 +92,13 @@ function TheoryPage() {
                {currentUser?.role === "admin" && (
                   <button
                      className="hover-stone-cs px-2 bg-amber-400"
-                     onClick={() =>
+                     onClick={() => {
                         modals?.openModal({
                            subject: "theory",
                            data: { html, id },
                            action: "patch"
-                        })
-                     }
+                        });
+                     }}
                   >
                      <FontAwesomeIcon icon={faFloppyDisk} />
                   </button>

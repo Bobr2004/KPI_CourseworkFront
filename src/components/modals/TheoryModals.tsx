@@ -17,14 +17,14 @@ function TheoryPatchSubmit({ close, data }: { close: () => void; data: any }) {
    } = useMutation({
       mutationFn: patchTheory,
       onSuccess: () => {
-         const { id } = data.data.id;
+         const { id } = data.id;
          queryClient.invalidateQueries({ queryKey: [`theory/${id}`] });
          wait().then(close);
       }
    });
 
    const submit = () => {
-      mutate({ id: data.data.id, html: data.data.html });
+      mutate({ id: data.id, html: data.html });
    };
    return (
       <ModalTemplate title={"Зберегти зміни теорії "}>

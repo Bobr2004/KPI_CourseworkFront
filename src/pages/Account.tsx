@@ -32,19 +32,27 @@ function Account() {
                firstName={data.firstName}
                lastName={data.lastName}
                score={data.score}
-               performance = {data.performance}
+               performance={data.performance}
             />
             <h4 className="text-center text-2xl">Архів тестів</h4>
             <div className="flex flex-col gap-2 flex-grow">
-               {data.testList.map(({ id, title, receivedPoints, points }) => (
-                  <AccountTest
-                     id={id}
-                     title={title}
-                     receivedPoints={receivedPoints}
-                     points={points}
-                     key={points}
-                  />
-               ))}
+               {data.testList ? (
+                  data.testList.map(({ id, title, receivedPoints, points }) => (
+                     <AccountTest
+                        id={id}
+                        title={title}
+                        receivedPoints={receivedPoints}
+                        points={points}
+                        key={points}
+                     />
+                  ))
+               ) : (
+                  <p className="text-center">
+                     <b className="text-stone-600">
+                        Студент ще не пройшов жодного тесту
+                     </b>
+                  </p>
+               )}
             </div>
          </>
       );

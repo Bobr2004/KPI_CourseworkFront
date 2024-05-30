@@ -34,7 +34,7 @@ const postElement = async (data: postElementDataType) => {
 };
 //
 
-// /post-test {parentElement: 2, title: "Mega nigga"}
+// /post-test {parentId: 2, title: "Mega nigga"}
 
 // Patch element
 type patchElementTitleType = {

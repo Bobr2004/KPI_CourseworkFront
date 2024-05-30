@@ -66,19 +66,31 @@ function AccountData({
                <h3>
                   Роль: <b>{roleName}</b>
                </h3>
+
                <p>
-                  Загальний бал: <b>{score}</b>
+                  Загальний бал:
+                  {score ? <b>{score}</b> : <b> - </b>}
                </p>
+
                <p>
                   Середня встигаємість:{" "}
-                  <b
-                     className={
-                        performance >= 60 ? " text-green-500" : "text-red-500"
-                     }
-                  >
-                     {performance}%
-                  </b>
+                  {performance ? (
+                     <b
+                        className={
+                           performance >= 60
+                              ? " text-green-500"
+                              : "text-red-500"
+                        }
+                     >
+                        {performance}%
+                     </b>
+                  ) : (
+                     <b>-</b>
+                  )}
                </p>
+               {/* {!score && (
+                  
+               )} */}
             </div>
             {isCurrentUser && <AccountChange id={id} email={email} />}
          </div>
