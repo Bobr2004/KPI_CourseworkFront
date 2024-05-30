@@ -44,7 +44,9 @@ function TestPage() {
          return;
       }
       setValidationError("");
-      mutation.mutate(choice);
+      const sendTestId = Number(id) || -1;
+      console.log({ testId: sendTestId, ...choice });
+      mutation.mutate({ testId: sendTestId, ...choice });
    };
 
    let htm: JSX.Element;
@@ -85,7 +87,7 @@ function TestPage() {
             </div>
             <div className="flex flex-col gap-2 mt-4">
                {data.quizes.map((qz, i) => (
-                  <Quiz key={i} {...qz} choose={choose} />
+                  <Quiz key={i} {...qz} choose={choose} parentId={Number(id)} />
                ))}
             </div>
 

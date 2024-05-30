@@ -62,7 +62,14 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
                return (
                   <>
                      {modal.data && (
-                        <ElementDeleteSubmit close={close} data={modal.data} />
+                        <ElementDeleteSubmit
+                           close={close}
+                           data={{
+                              element: modal.data.element,
+                              id: modal.data.id
+                           }}
+                           invalidate={modal.data.invalidate}
+                        />
                      )}
                   </>
                );
@@ -95,7 +102,9 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
       if (modal.subject === "test") {
          switch (modal.action) {
             case "passed":
-               return <TestPassedModal close={close} testId={modal.data.testId} />;
+               return (
+                  <TestPassedModal close={close} testId={modal.data.testId} />
+               );
             default:
                return <ErrorModal close={close} />;
          }

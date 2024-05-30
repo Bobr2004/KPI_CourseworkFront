@@ -19,10 +19,12 @@ import { wait } from "../../helpers/helpers";
 
 function ElementDeleteSubmit({
    close,
-   data
+   data,
+   invalidate
 }: {
    close: () => void;
    data: deleteElementDataType;
+   invalidate: string;
 }) {
    const quetyClient = useQueryClient();
    const {
@@ -33,8 +35,8 @@ function ElementDeleteSubmit({
       mutate
    } = useMutation({
       mutationFn: deleteElement,
-      onSuccess: (invalidate) => {
-         quetyClient.invalidateQueries({ queryKey: [`${invalidate}`] });
+      onSuccess: () => {
+         quetyClient.invalidateQueries({ queryKey: [invalidate] });
          wait().then(close);
       }
    });

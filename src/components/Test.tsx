@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "../config/routes";
 import { TestProps } from "../queries/lessonQueries";
 import {
@@ -11,14 +11,24 @@ import { useMemo } from "react";
 import DeleteElement from "./DeleteElement";
 import { useModal } from "../contexts/ModalContext";
 
-function Test({ id, title, questionsAmount, points }: TestProps) {
+function Test({
+   id,
+   title,
+   questionsAmount,
+   points,
+   parentId
+}: TestProps & { parentId: number }) {
    const redirect = useNavigate();
    const modals = useModal();
    const currentUser = useUser();
-   
+
+   console.log("Test, parentID", parentId);
 
    const onClick = () => {
-      if (currentUser?.testList.find((el) => el.id === id)) {
+      if (
+         currentUser?.testList &&
+         currentUser?.testList.find((el) => el.id === id)
+      ) {
          modals?.openModal({
             subject: "test",
             data: { testId: id },
@@ -37,7 +47,11 @@ function Test({ id, title, questionsAmount, points }: TestProps) {
                onClick={() =>
                   modals?.openModal({
                      subject: "element",
-                     data: { element: "test", id },
+                     data: {
+                        element: "test",
+                        id,
+                        invalidate: `lesson/${parentId}`
+                     },
                      action: "delete"
                   })
                }

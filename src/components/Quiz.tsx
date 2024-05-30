@@ -12,8 +12,12 @@ function Quiz({
    optionB,
    optionC,
    points,
-   choose
-}: QuizProps & { choose: (id: number, value: string) => void }) {
+   choose,
+   parentId
+}: QuizProps & {
+   choose: (id: number, value: string) => void;
+   parentId: number;
+}) {
    const modals = useModal();
    const currentUser = useUser();
    const isEdit = useMemo(() => currentUser?.editMode, [currentUser?.editMode]);
@@ -28,7 +32,11 @@ function Quiz({
                onClick={() =>
                   modals?.openModal({
                      subject: "element",
-                     data: { element: "quiz", id },
+                     data: {
+                        element: "quiz",
+                        id,
+                        invalidate: `test/${parentId}`
+                     },
                      action: "delete"
                   })
                }
@@ -36,7 +44,10 @@ function Quiz({
          )}
          <div className="bg-stone-100 hover-stone-cs p-4">
             <div className="flex justify-between gap-2 ">
-               <h3>{question}</h3> <p>{points} {properPointsWord(points)}</p>
+               <h3>{question}</h3>{" "}
+               <p>
+                  {points} {properPointsWord(points)}
+               </p>
             </div>
             <div>
                <label className="flex gap-2">

@@ -8,9 +8,8 @@ type deleteElementDataType = {
 
 // Delete lesson by id parameter
 const deleteElement = async ({ element, id }: deleteElementDataType) => {
-   const { invalidate }: { invalidate: string } =
-      await learnCredintialsAPI.delete(`/delete-${element}/${id}`);
-   return invalidate;
+   const res = await learnCredintialsAPI.delete(`/delete-${element}/${id}`);
+   return res;
 };
 //
 

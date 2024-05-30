@@ -30,7 +30,6 @@ type AccountRatingProps = {
    performance: number;
 };
 
-type sortType = "performance" | "score";
 
 const getRating = (sort: string | null) => async () => {
    sort ||= "score";

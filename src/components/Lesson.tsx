@@ -38,7 +38,7 @@ function Lesson({ id, num, title }: LessonProps) {
                   onClick={() =>
                      modals?.openModal({
                         subject: "element",
-                        data: { element: "lesson", id },
+                        data: { element: "lesson", id, invalidate: "lessons" },
                         action: "delete"
                      })
                   }
@@ -78,11 +78,11 @@ function Lesson({ id, num, title }: LessonProps) {
    );
 }
 
-function LessonExpand({ id }: { id: number }) {
+function LessonExpand({ id: parentId }: { id: number }) {
    const [category, setCategory] = useState(0);
    const { isPending, isError, data, error } = useQuery({
-      queryKey: [`lesson/${id}`],
-      queryFn: getLesson(id)
+      queryKey: [`lesson/${parentId}`],
+      queryFn: getLesson(parentId)
    });
 
    let htm: JSX.Element;
@@ -111,7 +111,7 @@ function LessonExpand({ id }: { id: number }) {
                >
                   <ExpandColumn>
                      {theoryList.map(({ id, title }) => (
-                        <Theory id={id} title={title} key={id} />
+                        <Theory id={id} title={title} key={id} parentId={parentId}/>
                      ))}
                   </ExpandColumn>
                   <ExpandColumn>
@@ -122,6 +122,7 @@ function LessonExpand({ id }: { id: number }) {
                            questionsAmount={questionsAmount}
                            points={points}
                            key={id}
+                           parentId={parentId}
                         />
                      ))}
                   </ExpandColumn>
@@ -136,7 +137,7 @@ function LessonExpand({ id }: { id: number }) {
    //    queryFn: getLesson(id)
    // });
    return (
-      <div className="flex flex-col" data-id={id}>
+      <div className="flex flex-col" data-id={parentId}>
          {htm}
       </div>
    );

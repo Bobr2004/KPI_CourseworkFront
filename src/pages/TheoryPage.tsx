@@ -5,7 +5,6 @@ import Spinner from "../components/Spinner";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useModal } from "../contexts/ModalContext";
 import { useUser } from "../contexts/UserContext";
-import StatusButton from "../components/StatusButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import EditElement from "../components/EditElement";

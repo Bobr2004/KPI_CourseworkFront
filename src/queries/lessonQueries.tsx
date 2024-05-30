@@ -24,6 +24,9 @@ type TheoryProps = {
    title: string;
 };
 
+
+
+
 type TestProps = {
    id: number;
    title: string;
