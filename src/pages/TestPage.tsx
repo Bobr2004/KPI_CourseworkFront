@@ -25,7 +25,13 @@ function TestPage() {
 
    const mutation = useMutation({
       mutationFn: submitTest,
-      onSuccess: () => {}
+      onSuccess: ({ title, points, receivedPoints }) => {
+         modals?.openModal({
+            subject: "test",
+            data: { title, points, receivedPoints },
+            action: "result"
+         });
+      }
    });
 
    // Error messge

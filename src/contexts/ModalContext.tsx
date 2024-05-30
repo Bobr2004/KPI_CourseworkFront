@@ -10,6 +10,7 @@ import {
 import { QuizPostSubmit } from "../components/modals/QuizModals";
 import ErrorModal from "../components/modals/ErrorModal";
 import TestPassedModal from "../components/modals/TestPassedModal";
+import TestResultResponse from "../components/modals/TestResultResponce";
 
 type openModalParams = { subject: string; data?: any; action: string };
 
@@ -104,6 +105,15 @@ function ModalContextProvider({ children }: { children: ReactNode }) {
             case "passed":
                return (
                   <TestPassedModal close={close} testId={modal.data.testId} />
+               );
+            case "result":
+               return (
+                  <TestResultResponse
+                     close={close}
+                     title={modal.data.title}
+                     receivedPoints={modal.data.receivedPoints}
+                     points={modal.data.points}
+                  />
                );
             default:
                return <ErrorModal close={close} />;

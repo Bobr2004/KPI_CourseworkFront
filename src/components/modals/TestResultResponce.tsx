@@ -1,24 +1,29 @@
+import { NavLink } from "react-router-dom";
 import ModalTemplate from "./ModalTemplate";
-import { useUser } from "../../contexts/UserContext";
+import { routes } from "../../config/routes";
 
-function TestPassedModal({
-   close,
-   testId
-}: {
+type TestResultResponseProps = {
    close: () => void;
-   testId: number;
-}) {
-   const user = useUser();
+   title: string;
+   receivedPoints: number;
+   points: number;
+};
 
-   const { title, receivedPoints, points } =
-      user?.testList.find((el) => el.id === testId) || {};
+function TestResultResponse({
+   close,
+   title,
+   receivedPoints,
+   points
+}: TestResultResponseProps) {
+   const isGreat = (receivedPoints * 100) / points >= 60;
 
    return (
-      <ModalTemplate title={"Ви вже пройшли цей тест"}>
+      <ModalTemplate title={`Ви ${isGreat ? "успішно " : ""}склали тест`}>
          <div className="flex flex-col gap-1 mb-4 items-center">
             <p>{title}</p>
             <p>
-               Оцінка: <b
+               Оцінка:{" "}
+               <b
                   className={
                      receivedPoints &&
                      points &&
@@ -36,17 +41,18 @@ function TestPassedModal({
                className="px-4 py-1 rounded-lg bg-stone-100 hover-stone-cs w-1/2"
                onClick={close}
             >
-               Відміна
+               Залишитися
             </button>
-            <button
-               className="px-4 py-1 rounded-lg bg-green-400 hover-stone-cs w-1/2"
+            <NavLink
+               to={routes.home}
+               className="px-4 py-1 rounded-lg bg-green-400 hover-stone-cs w-1/2 text-center"
                onClick={close}
             >
-               Зрозуміло
-            </button>
+               На головну
+            </NavLink>
          </div>
       </ModalTemplate>
    );
 }
 
-export default TestPassedModal;
+export default TestResultResponse;
