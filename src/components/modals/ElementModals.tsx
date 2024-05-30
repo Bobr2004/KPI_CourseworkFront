@@ -79,6 +79,14 @@ function ElementPostSubmit({ close }: { close: () => void }) {
    const [title, setTitle] = useState("");
    const quetyClient = useQueryClient();
    const [validaionErorr, setValidaionErorr] = useState("");
+
+   const [parentError, setParentError] = useState("");
+
+
+   useEffect(()=>{
+      if(element === "lesson") setParentError("");
+   },[element])
+
    const {
       isPending,
       isError,
@@ -125,7 +133,11 @@ function ElementPostSubmit({ close }: { close: () => void }) {
                   <option value="theory">Теорія</option>
                </select>
                {isChildren && (
-                  <SelectParent value={parentId} setValue={setParentId} />
+                  <SelectParent
+                     value={parentId}
+                     setValue={setParentId}
+                     setParentError={setParentError}
+                  />
                )}
             </div>
             <div className="flex flex-col">
@@ -139,6 +151,9 @@ function ElementPostSubmit({ close }: { close: () => void }) {
             {validaionErorr && (
                <ValidationError text={validaionErorr} className="text-sm" />
             )}
+            {parentError && (
+               <ValidationError text={parentError} className="text-sm" />
+            )}
          </div>
          <div className="flex gap-4 justify-center">
             <button
@@ -147,20 +162,22 @@ function ElementPostSubmit({ close }: { close: () => void }) {
             >
                Відміна
             </button>
-            <StatusButton
-               isPending={isPending}
-               isError={isError}
-               error={`${error}`}
-               res={res}
-               className="px-4 py-1 w-1/2"
-            >
-               <button
-                  className="px-4 py-1 rounded-lg bg-amber-400 hover-stone-cs w-1/2"
-                  onClick={submit}
+            {!parentError && (
+               <StatusButton
+                  isPending={isPending}
+                  isError={isError}
+                  error={`${error}`}
+                  res={res}
+                  className="px-4 py-1 w-1/2"
                >
-                  Підтвердити
-               </button>
-            </StatusButton>
+                  <button
+                     className="px-4 py-1 rounded-lg bg-amber-400 hover-stone-cs w-1/2"
+                     onClick={submit}
+                  >
+                     Підтвердити
+                  </button>
+               </StatusButton>
+            )}
          </div>
       </ModalTemplate>
    );
@@ -168,10 +185,12 @@ function ElementPostSubmit({ close }: { close: () => void }) {
 
 function SelectParent({
    value,
-   setValue
+   setValue,
+   setParentError
 }: {
    value: number | undefined;
    setValue: React.Dispatch<React.SetStateAction<number | undefined>>;
+   setParentError: React.Dispatch<React.SetStateAction<string>>;
 }) {
    const { isPending, isError, data, error } = useQuery({
       queryKey: ["lessons"],
@@ -180,7 +199,11 @@ function SelectParent({
    let htm: JSX.Element;
 
    useEffect(() => {
-      if (data) setValue(data[0].id);
+      if (data) {
+         setParentError("");
+         setValue(data[0].id);
+      }
+      if (!data) setParentError("Для початку створіть Тему");
    }, [data]);
 
    if (isPending) htm = <Spinner height="4.5rem" />;
@@ -188,17 +211,19 @@ function SelectParent({
    else
       htm = (
          <>
-            <select
-               className="hover-stone-cs py-1 w-1/2"
-               defaultValue={value}
-               onChange={(e) => setValue(Number(e.target.value))}
-            >
-               {data.map((lsn) => (
-                  <option key={lsn.id} value={lsn.id}>
-                     {lsn.title}
-                  </option>
-               ))}
-            </select>
+            {data && (
+               <select
+                  className="hover-stone-cs py-1 w-1/2"
+                  defaultValue={value}
+                  onChange={(e) => setValue(Number(e.target.value))}
+               >
+                  {data.map((lsn) => (
+                     <option key={lsn.id} value={lsn.id}>
+                        {lsn.title}
+                     </option>
+                  ))}
+               </select>
+            )}
          </>
       );
 

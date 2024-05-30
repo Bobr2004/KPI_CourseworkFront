@@ -4,7 +4,7 @@ import { getLessons } from "../queries/lessonQueries";
 import Spinner from "../components/Spinner";
 import { useUser } from "../contexts/UserContext";
 import { useMemo } from "react";
-import PostElement from "../components/postElement";
+import PostElement from "../components/PostElement";
 
 function Home() {
    const currentUser = useUser();
@@ -22,9 +22,15 @@ function Home() {
    else
       htm = (
          <>
-            {data.map((lsn, i) => (
-               <Lesson id={lsn.id} num={i + 1} title={lsn.title} key={lsn.id} />
-            ))}
+            {data &&
+               data.map((lsn, i) => (
+                  <Lesson
+                     id={lsn.id}
+                     num={i + 1}
+                     title={lsn.title}
+                     key={lsn.id}
+                  />
+               ))}
          </>
       );
 

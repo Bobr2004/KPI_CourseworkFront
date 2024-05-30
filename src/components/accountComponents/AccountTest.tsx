@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "../../config/routes";
 import { AccountTestProps } from "../../queries/userQueries";
 import { useModal } from "../../contexts/ModalContext";
