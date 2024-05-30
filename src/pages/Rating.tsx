@@ -15,7 +15,6 @@ function Rating() {
    });
 
    useEffect(() => {
-      console.log("oleg");
       queryClient.invalidateQueries({ queryKey: ["rating"] });
    }, [searchParams]);
 

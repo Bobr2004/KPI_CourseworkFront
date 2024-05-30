@@ -7,7 +7,6 @@ import Spinner from "../components/Spinner";
 
 function Account() {
    let { id } = useParams();
-   console.log(id);
    const { isPending, isError, data, error } = useQuery({
       queryKey: [`account/${id}`],
       queryFn: getAccount(Number(id))

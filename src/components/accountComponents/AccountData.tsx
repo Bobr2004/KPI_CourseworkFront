@@ -67,10 +67,7 @@ function AccountData({
                   Роль: <b>{roleName}</b>
                </h3>
 
-               <p>
-                  Загальний бал:
-                  {score ? <b>{score}</b> : <b> - </b>}
-               </p>
+               <p>Загальний бал: {score ? <b>{score}</b> : <b> - </b>}</p>
 
                <p>
                   Середня встигаємість:{" "}

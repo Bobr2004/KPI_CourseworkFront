@@ -10,10 +10,13 @@ type UserContextProps = {
 };
 
 const currentUser = async () => {
-   const { data }: { data: UserContextProps } = await learnCredintialsAPI.get(
-      `/current-user`
-   );
-   return data;
+   try {
+      const res = await learnCredintialsAPI.get(`/current-user`);
+      const { data }: { data: UserContextProps } = res;
+      return data;
+   } catch {
+      return null;
+   }
 };
 //
 
@@ -31,14 +34,11 @@ type sortType = "performance" | "score";
 
 const getRating = (sort: string | null) => async () => {
    sort ||= "score";
-   const { data }: { data: RatingProps } = await learnAPI.get(
-      `/rating`,
-      {
-         params: {
-            sort
-         }
+   const { data }: { data: RatingProps } = await learnAPI.get(`/rating`, {
+      params: {
+         sort
       }
-   );
+   });
    return data;
 };
 //
