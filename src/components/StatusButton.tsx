@@ -26,7 +26,10 @@ function StatusButton({
       if (res) return <ButtonStatusSuccess className={className} />;
       if (isError)
          return (
-            <ButtonStatusError className={className} errorMessage={`${JSON.stringify(error)}`}>
+            <ButtonStatusError
+               className={className}
+               errorMessage={`${error}`}
+            >
                {children}
             </ButtonStatusError>
          );
@@ -67,7 +70,7 @@ function ButtonStatusError({
    errorMessage: string;
 }) {
    return (
-      <div className="text-center">
+      <div className={` rounded-lg text-center`}>
          <p className="text-rose-600 mb-2">{errorMessage}</p>
          {children}
       </div>
