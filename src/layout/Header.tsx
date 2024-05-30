@@ -32,7 +32,7 @@ function Header() {
                <>
                   {isEdit ? (
                      <button
-                        className="hover-stone-cs px-2"
+                        className="hover-stone-cs px-2 -my-px"
                         onClick={currentUser.exitEditMode}
                         title="Режим перегляду"
                      >
@@ -40,7 +40,7 @@ function Header() {
                      </button>
                   ) : (
                      <button
-                        className="hover-stone-cs px-2"
+                        className="hover-stone-cs px-2 -my-px"
                         onClick={currentUser.enterEditMode}
                         title="Режим редаугвання"
                      >
