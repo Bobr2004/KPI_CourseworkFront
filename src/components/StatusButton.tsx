@@ -26,9 +26,9 @@ function StatusButton({
       if (res) return <ButtonStatusSuccess className={className} />;
       if (isError)
          return (
-            <ButtonStatusError
-               className={className}
-            >{`${error}`}</ButtonStatusError>
+            <ButtonStatusError className={className} errorMessage={`${JSON.stringify(error)}`}>
+               {children}
+            </ButtonStatusError>
          );
       return <>{children}</>;
    };
@@ -37,7 +37,9 @@ function StatusButton({
 
 function ButtonStatusSpinner({ className }: { className: string }) {
    return (
-      <div className={`${className} rounded-lg bg-blue-400 hover-stone-cs text-center`}>
+      <div
+         className={`${className} rounded-lg bg-blue-400 hover-stone-cs text-center`}
+      >
          <div className="py-1 flex justify-center">
             <Spinner height="1rem" />
          </div>
@@ -47,7 +49,9 @@ function ButtonStatusSpinner({ className }: { className: string }) {
 
 function ButtonStatusSuccess({ className }: { className: string }) {
    return (
-      <div className={`${className} rounded-lg bg-green-400 hover-stone-cs text-center`}>
+      <div
+         className={`${className} rounded-lg bg-green-400 hover-stone-cs text-center`}
+      >
          <FontAwesomeIcon icon={faCheck} />
       </div>
    );
@@ -55,13 +59,16 @@ function ButtonStatusSuccess({ className }: { className: string }) {
 
 function ButtonStatusError({
    children,
-   className
+   className,
+   errorMessage
 }: {
    children: ReactNode;
    className: string;
+   errorMessage: string;
 }) {
    return (
-      <div className={`${className} rounded-lg bg-red-400 hover-stone-cs text-center`}>
+      <div className="text-center">
+         <p className="text-rose-600 mb-2">{errorMessage}</p>
          {children}
       </div>
    );
