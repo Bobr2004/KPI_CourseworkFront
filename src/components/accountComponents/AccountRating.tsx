@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { AccountRatingProps } from "../../queries/userQueries";
 import { routes } from "../../config/routes";
 import "./account.scss";
+import { properPointsWord } from "../../helpers/helpers";
 function AccountRating({
    id,
    firstName,
@@ -17,21 +18,31 @@ function AccountRating({
       >
          <div>{seq}</div>
          <div className="flex gap-2">
-            <span>{firstName}</span>
+            <span className="hidden sm:block">{firstName}</span>
             <span>{lastName}</span>
          </div>
 
-         <div>
-            Балл: <b>{score}</b>
-         </div>
-         <div>
-            Встигаємість:{" "}
-            <b
-               className={performance >= 60 ? "text-green-500" : "text-red-500"}
-            >
-               {performance}%
-            </b>
-         </div>
+         <p className="hidden sm:block">
+            Бал: {score ? <b>{score}</b> : <b> - </b>}
+         </p>
+
+         <p className="block sm:hidden">
+            {score ? <b>{score} {properPointsWord(score)}</b> : <b> - </b>} 
+         </p>
+         <p>
+            <span className="hidden sm:inline">Bстигаємість:</span>{" "}
+            {performance ? (
+               <b
+                  className={
+                     performance >= 60 ? " text-green-500" : "text-red-500"
+                  }
+               >
+                  {performance}%
+               </b>
+            ) : (
+               <b>-</b>
+            )}
+         </p>
       </NavLink>
    );
 }
